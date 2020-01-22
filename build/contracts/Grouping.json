@@ -9,7 +9,7 @@
           "type": "address"
         }
       ],
-      "name": "participants",
+      "name": "addressToParticipant",
       "outputs": [
         {
           "name": "name",
@@ -26,17 +26,12 @@
     },
     {
       "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "groups",
+      "inputs": [],
+      "name": "owner",
       "outputs": [
         {
           "name": "",
-          "type": "uint256"
+          "type": "address"
         }
       ],
       "payable": false,
@@ -45,12 +40,17 @@
     },
     {
       "constant": true,
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
+      "inputs": [
         {
           "name": "",
           "type": "address"
+        }
+      ],
+      "name": "addressToGroup",
+      "outputs": [
+        {
+          "name": "groupNumber",
+          "type": "uint256"
         }
       ],
       "payable": false,
@@ -96,21 +96,21 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"participants\",\"outputs\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"participantAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getParticipant\",\"outputs\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"participantAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"groups\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"register\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol\":\"Grouping\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol\":{\"keccak256\":\"0x1175d50f14be38c854bd8ae794c1734899997b9cfdc4fccb6fc5d0f8c4d3e159\",\"urls\":[\"bzzr://06b2d9564c7163cfea6cb0fdca3886b00df1c36eeafa70cc6fb5bf2fd6a00dc2\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506107b3806100606000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c806309e69ede1461005c57806314b878621461014c57806363d5e44d146102025780638da5cb5b1461025a578063f2c298be146102a4575b600080fd5b61009e6004803603602081101561007257600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061035f565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156101105780820151818401526020810190506100f5565b50505050905090810190601f16801561013d5780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b61015461043b565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156101c65780820151818401526020810190506101ab565b50505050905090810190601f1680156101f35780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b6102446004803603602081101561021857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506105a1565b6040518082815260200191505060405180910390f35b6102626105b9565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b61035d600480360360208110156102ba57600080fd5b81019080803590602001906401000000008111156102d757600080fd5b8201836020820111156102e957600080fd5b8035906020019184600183028401116401000000008311171561030b57600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f8201169050808301925050505050505091929192905050506105de565b005b6001602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561040b5780601f106103e05761010080835404028352916020019161040b565b820191906000526020600020905b8154815290600101906020018083116103ee57829003601f168201915b5050505050908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905082565b606060006104476106b2565b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020604051806040016040529081600082018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561052a5780601f106104ff5761010080835404028352916020019161052a565b820191906000526020600020905b81548152906001019060200180831161050d57829003601f168201915b505050505081526020016001820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152505090508060000151816020015181915092509250509091565b60026020528060005260406000206000915090505481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60405180604001604052808281526020013373ffffffffffffffffffffffffffffffffffffffff16815250600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000190805190602001906106649291906106e2565b5060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555090505050565b604051806040016040528060608152602001600073ffffffffffffffffffffffffffffffffffffffff1681525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061072357805160ff1916838001178555610751565b82800160010185558215610751579182015b82811115610750578251825591602001919060010190610735565b5b50905061075e9190610762565b5090565b61078491905b80821115610780576000816000905550600101610768565b5090565b9056fea165627a7a72305820dfbee9c2bf9e95e76d79370a6f781d0fe1ded5a663846bcc508a2ed7f30496740029",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100575760003560e01c806309e69ede1461005c57806314b878621461014c57806363d5e44d146102025780638da5cb5b1461025a578063f2c298be146102a4575b600080fd5b61009e6004803603602081101561007257600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061035f565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156101105780820151818401526020810190506100f5565b50505050905090810190601f16801561013d5780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b61015461043b565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156101c65780820151818401526020810190506101ab565b50505050905090810190601f1680156101f35780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b6102446004803603602081101561021857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506105a1565b6040518082815260200191505060405180910390f35b6102626105b9565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b61035d600480360360208110156102ba57600080fd5b81019080803590602001906401000000008111156102d757600080fd5b8201836020820111156102e957600080fd5b8035906020019184600183028401116401000000008311171561030b57600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f8201169050808301925050505050505091929192905050506105de565b005b6001602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561040b5780601f106103e05761010080835404028352916020019161040b565b820191906000526020600020905b8154815290600101906020018083116103ee57829003601f168201915b5050505050908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905082565b606060006104476106b2565b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020604051806040016040529081600082018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561052a5780601f106104ff5761010080835404028352916020019161052a565b820191906000526020600020905b81548152906001019060200180831161050d57829003601f168201915b505050505081526020016001820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152505090508060000151816020015181915092509250509091565b60026020528060005260406000206000915090505481565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60405180604001604052808281526020013373ffffffffffffffffffffffffffffffffffffffff16815250600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000190805190602001906106649291906106e2565b5060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555090505050565b604051806040016040528060608152602001600073ffffffffffffffffffffffffffffffffffffffff1681525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061072357805160ff1916838001178555610751565b82800160010185558215610751579182015b82811115610750578251825591602001919060010190610735565b5b50905061075e9190610762565b5090565b61078491905b80821115610780576000816000905550600101610768565b5090565b9056fea165627a7a72305820dfbee9c2bf9e95e76d79370a6f781d0fe1ded5a663846bcc508a2ed7f30496740029",
-  "sourceMap": "34:849:0:-;;;396:56;8:9:-1;5:2;;;30:1;27;20:12;5:2;396:56:0;435:10;427:5;;:18;;;;;;;;;;;;;;;;;;34:849;;;;;;",
-  "deployedSourceMap": "34:849:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;34:849:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;216:52;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;216:52:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;216:52:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;645:236;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;645:236:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;310:39;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;310:39:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;58:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;491:120;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;491:120:0;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;491:120:0;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;491:120:0;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;491:120:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;491:120:0;;;;;;;;;;;;;;;:::i;:::-;;216:52;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;645:236::-;692:18;712:26;750:30;;:::i;:::-;783:12;:24;796:10;783:24;;;;;;;;;;;;;;;750:57;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;825:11;:16;;;843:11;:30;;;817:57;;;;;;;;645:236;;:::o;310:39::-;;;;;;;;;;;;;;;;;:::o;58:20::-;;;;;;;;;;;;;:::o;491:120::-;574:30;;;;;;;;586:5;574:30;;;;593:10;574:30;;;;;547:12;:24;560:10;547:24;;;;;;;;;;;;;;;:57;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;491:120;:::o;34:849::-;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity >=0.4.21 <0.7.0;\n\ncontract Grouping {\n    address public owner;\n\n    struct Participant {\n        string name;\n        address participantAddress;\n    }\n\n    // an address points to a participant\n    mapping (address => Participant) public participants;\n    // an address points to a group\n    mapping (address => uint) public groups;\n\n    // saving the owner of the contract\n    constructor() public {\n        owner = msg.sender;\n    }\n\n    // register new participants\n    function register(string memory _name) public {\n        participants[msg.sender] = Participant(_name, msg.sender);\n    }\n\n    // return a participant\n    function getParticipant() public view returns (string memory name, address participantAddress) {\n        Participant memory participant = participants[msg.sender];\n        return (participant.name, participant.participantAddress);\n    }\n}\n",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"getParticipant\",\"outputs\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"participantAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"addressToParticipant\",\"outputs\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"participantAddress\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"register\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"addressToGroup\",\"outputs\":[{\"name\":\"groupNumber\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol\":\"Grouping\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol\":{\"keccak256\":\"0x9cd05b25358381282ad2f482e2775c662998c014492aa9c130c73bc64d2efd00\",\"urls\":[\"bzzr://e77bc5f2951cc2f8fe9cbfb8c654875760395272be5220d93e286b148b62a213\"]}},\"version\":1}",
+  "bytecode": "0x6080604052600060015534801561001557600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555061094e806100656000396000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c806314b878621461005c578063341b9246146101125780638da5cb5b14610202578063f2c298be1461024c578063f3e3063d14610307575b600080fd5b61006461035f565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156100d65780820151818401526020810190506100bb565b50505050905090810190601f1680156101035780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b6101546004803603602081101561012857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506104c5565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156101c65780820151818401526020810190506101ab565b50505050905090810190601f1680156101f35780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b61020a6105a1565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6103056004803603602081101561026257600080fd5b810190808035906020019064010000000081111561027f57600080fd5b82018360208201111561029157600080fd5b803590602001918460018302840111640100000000831117156102b357600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f8201169050808301925050505050505091929192905050506105c6565b005b6103496004803603602081101561031d57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610758565b6040518082815260200191505060405180910390f35b6060600061036b61083a565b600460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020604051806040016040529081600082018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561044e5780601f106104235761010080835404028352916020019161044e565b820191906000526020600020905b81548152906001019060200180831161043157829003601f168201915b505050505081526020016001820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152505090508060000151816020015181915092509250509091565b6004602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105715780601f1061054657610100808354040283529160200191610571565b820191906000526020600020905b81548152906001019060200180831161055457829003601f168201915b5050505050908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905082565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6105ce61083a565b60405180604001604052808381526020013373ffffffffffffffffffffffffffffffffffffffff16815250905060038190806001815401808255809150509060018203906000526020600020906002020160009091929091909150600082015181600001908051906020019061064592919061086a565b5060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050505080600460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000190805190602001906106ec92919061086a565b5060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555090505061073f6108ea565b610747610776565b905061075382826107e5565b505050565b60056020528060005260406000206000915090508060000154905081565b61077e6108ea565b6107866108ea565b604051806020016040528060016000815480929190600101919050558152509050600281908060018154018082558091505090600182039060005260206000200160009091929091909150600082015181600001555050508091505090565b8060056000846020015173ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082015181600001559050505050565b604051806040016040528060608152602001600073ffffffffffffffffffffffffffffffffffffffff1681525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106108ab57805160ff19168380011785556108d9565b828001600101855582156108d9579182015b828111156108d85782518255916020019190600101906108bd565b5b5090506108e691906108fd565b5090565b6040518060200160405280600081525090565b61091f91905b8082111561091b576000816000905550600101610903565b5090565b9056fea165627a7a7230582067e5ec5b53a755d9ed8e273a8677060e9a4e1a10e662835b919b32ad9c04a17b0029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100575760003560e01c806314b878621461005c578063341b9246146101125780638da5cb5b14610202578063f2c298be1461024c578063f3e3063d14610307575b600080fd5b61006461035f565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156100d65780820151818401526020810190506100bb565b50505050905090810190601f1680156101035780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b6101546004803603602081101561012857600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506104c5565b60405180806020018373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001828103825284818151815260200191508051906020019080838360005b838110156101c65780820151818401526020810190506101ab565b50505050905090810190601f1680156101f35780820380516001836020036101000a031916815260200191505b50935050505060405180910390f35b61020a6105a1565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6103056004803603602081101561026257600080fd5b810190808035906020019064010000000081111561027f57600080fd5b82018360208201111561029157600080fd5b803590602001918460018302840111640100000000831117156102b357600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f8201169050808301925050505050505091929192905050506105c6565b005b6103496004803603602081101561031d57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610758565b6040518082815260200191505060405180910390f35b6060600061036b61083a565b600460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020604051806040016040529081600082018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561044e5780601f106104235761010080835404028352916020019161044e565b820191906000526020600020905b81548152906001019060200180831161043157829003601f168201915b505050505081526020016001820160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152505090508060000151816020015181915092509250509091565b6004602052806000526040600020600091509050806000018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105715780601f1061054657610100808354040283529160200191610571565b820191906000526020600020905b81548152906001019060200180831161055457829003601f168201915b5050505050908060010160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905082565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6105ce61083a565b60405180604001604052808381526020013373ffffffffffffffffffffffffffffffffffffffff16815250905060038190806001815401808255809150509060018203906000526020600020906002020160009091929091909150600082015181600001908051906020019061064592919061086a565b5060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555050505080600460003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008201518160000190805190602001906106ec92919061086a565b5060208201518160010160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555090505061073f6108ea565b610747610776565b905061075382826107e5565b505050565b60056020528060005260406000206000915090508060000154905081565b61077e6108ea565b6107866108ea565b604051806020016040528060016000815480929190600101919050558152509050600281908060018154018082558091505090600182039060005260206000200160009091929091909150600082015181600001555050508091505090565b8060056000846020015173ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082015181600001559050505050565b604051806040016040528060608152602001600073ffffffffffffffffffffffffffffffffffffffff1681525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f106108ab57805160ff19168380011785556108d9565b828001600101855582156108d9579182015b828111156108d85782518255916020019190600101906108bd565b5b5090506108e691906108fd565b5090565b6040518060200160405280600081525090565b61091f91905b8082111561091b576000816000905550600101610903565b5090565b9056fea165627a7a7230582067e5ec5b53a755d9ed8e273a8677060e9a4e1a10e662835b919b32ad9c04a17b0029",
+  "sourceMap": "34:1919:0:-;;;278:1;252:27;;696:56;8:9:-1;5:2;;;30:1;27;20:12;5:2;696:56:0;735:10;727:5;;:18;;;;;;;;;;;;;;;;;;34:1919;;;;;;",
+  "deployedSourceMap": "34:1919:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;34:1919:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1314:244;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;1314:244:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;499:60;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;499:60:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;499:60:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;91:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;791:489;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;791:489:0;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;791:489:0;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;791:489:0;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;791:489:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;791:489:0;;;;;;;;;;;;;;;:::i;:::-;;601:48;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;601:48:0;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;1314:244;1361:18;1381:26;1419:30;;:::i;:::-;1452:20;:32;1473:10;1452:32;;;;;;;;;;;;;;;1419:65;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1502:11;:16;;;1520:11;:30;;;1494:57;;;;;;;;1314:244;;:::o;499:60::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;91:20::-;;;;;;;;;;;;;:::o;791:489::-;883:30;;:::i;:::-;916;;;;;;;;928:5;916:30;;;;935:10;916:30;;;;;883:63;;988:12;1006:11;988:30;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;988:30:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1097:11;1062:20;:32;1083:10;1062:32;;;;;;;;;;;;;;;:46;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1148:18;;:::i;:::-;1169:13;:11;:13::i;:::-;1148:34;;1232:41;1254:11;1267:5;1232:21;:41::i;:::-;791:489;;;:::o;601:48::-;;;;;;;;;;;;;;;;;;;;;;:::o;1590:161::-;1630:12;;:::i;:::-;1654:18;;:::i;:::-;1675:19;;;;;;;;1681:10;;:12;;;;;;;;;;;;1675:19;;;1654:40;;1704:6;1716:5;1704:18;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;1704:18:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1739:5;1732:12;;;1590:161;:::o;1789:162::-;1939:5;1890:14;:46;1905:11;:30;;;1890:46;;;;;;;;;;;;;;;:54;;;;;;;;;;;1789:162;;:::o;34:1919::-;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity >=0.4.21 <0.7.0;\n\ncontract Grouping {\n    // the owner of the contract\n    address public owner;\n\n    // a participant\n    struct Participant {\n        string name;\n        address participantAddress;\n    }\n\n    // number of groups\n    uint private groupCount = 0;\n\n    // a group\n    struct Group {\n        uint groupNumber;\n    }\n\n    // list of groups\n    Group[] groups;\n\n    // list of participants\n    Participant[] participants;\n\n    // an address points to a participant\n    mapping (address => Participant) public addressToParticipant;\n    // an address points to a group\n    mapping (address => Group) public addressToGroup;\n\n    // saving the owner of the contract\n    constructor() public {\n        owner = msg.sender;\n    }\n\n    // register new participants\n    function register(string memory _name) public {\n        // create a new participant\n        Participant memory participant = Participant(_name, msg.sender);\n        // push it to the array\n        participants.push(participant);\n        // save it in the mapping\n        addressToParticipant[msg.sender] = participant;\n        // create a new group\n        Group memory group = createGroup();\n        // add participant to new group\n        addParticipantToGroup(participant, group);\n    }\n\n    // return a participant\n    function getParticipant() public view returns (string memory name, address participantAddress) {\n        Participant memory participant = addressToParticipant[msg.sender];\n        return (participant.name, participant.participantAddress);\n    }\n\n    // create a new group\n    function createGroup() private returns (Group memory) {\n        Group memory group = Group(groupCount++);\n        groups.push(group);\n        return group;\n    }\n\n    // add participant to group\n    function addParticipantToGroup(Participant memory participant, Group memory group) private {\n        addressToGroup[participant.participantAddress] = group;\n    }\n}\n",
   "sourcePath": "/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol",
   "ast": {
     "absolutePath": "/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol",
     "exportedSymbols": {
       "Grouping": [
-        64
+        132
       ]
     },
-    "id": 65,
+    "id": 133,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -133,9 +133,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 64,
+        "id": 132,
         "linearizedBaseContracts": [
-          64
+          132
         ],
         "name": "Grouping",
         "nodeType": "ContractDefinition",
@@ -145,8 +145,8 @@
             "id": 3,
             "name": "owner",
             "nodeType": "VariableDeclaration",
-            "scope": 64,
-            "src": "58:20:0",
+            "scope": 132,
+            "src": "91:20:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -157,7 +157,7 @@
               "id": 2,
               "name": "address",
               "nodeType": "ElementaryTypeName",
-              "src": "58:7:0",
+              "src": "91:7:0",
               "stateMutability": "nonpayable",
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
@@ -177,7 +177,7 @@
                 "name": "name",
                 "nodeType": "VariableDeclaration",
                 "scope": 8,
-                "src": "114:11:0",
+                "src": "168:11:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -188,7 +188,7 @@
                   "id": 4,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "114:6:0",
+                  "src": "168:6:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -203,7 +203,7 @@
                 "name": "participantAddress",
                 "nodeType": "VariableDeclaration",
                 "scope": 8,
-                "src": "135:26:0",
+                "src": "189:26:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -214,7 +214,7 @@
                   "id": 6,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
-                  "src": "135:7:0",
+                  "src": "189:7:0",
                   "stateMutability": "nonpayable",
                   "typeDescriptions": {
                     "typeIdentifier": "t_address",
@@ -227,17 +227,173 @@
             ],
             "name": "Participant",
             "nodeType": "StructDefinition",
-            "scope": 64,
-            "src": "85:83:0",
+            "scope": 132,
+            "src": "139:83:0",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 12,
+            "id": 11,
+            "name": "groupCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 132,
+            "src": "252:27:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 9,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "252:4:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 10,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "278:1:0",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "private"
+          },
+          {
+            "canonicalName": "Grouping.Group",
+            "id": 14,
+            "members": [
+              {
+                "constant": false,
+                "id": 13,
+                "name": "groupNumber",
+                "nodeType": "VariableDeclaration",
+                "scope": 14,
+                "src": "324:16:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 12,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "324:4:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Group",
+            "nodeType": "StructDefinition",
+            "scope": 132,
+            "src": "301:46:0",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 17,
+            "name": "groups",
+            "nodeType": "VariableDeclaration",
+            "scope": 132,
+            "src": "375:14:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Group_$14_storage_$dyn_storage",
+              "typeString": "struct Grouping.Group[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 15,
+                "name": "Group",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 14,
+                "src": "375:5:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                  "typeString": "struct Grouping.Group"
+                }
+              },
+              "id": 16,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "375:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Group_$14_storage_$dyn_storage_ptr",
+                "typeString": "struct Grouping.Group[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 20,
             "name": "participants",
             "nodeType": "VariableDeclaration",
-            "scope": 64,
-            "src": "216:52:0",
+            "scope": 132,
+            "src": "424:26:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Participant_$8_storage_$dyn_storage",
+              "typeString": "struct Grouping.Participant[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 18,
+                "name": "Participant",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 8,
+                "src": "424:11:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
+                  "typeString": "struct Grouping.Participant"
+                }
+              },
+              "id": 19,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "424:13:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Participant_$8_storage_$dyn_storage_ptr",
+                "typeString": "struct Grouping.Participant[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 24,
+            "name": "addressToParticipant",
+            "nodeType": "VariableDeclaration",
+            "scope": 132,
+            "src": "499:60:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -245,30 +401,30 @@
               "typeString": "mapping(address => struct Grouping.Participant)"
             },
             "typeName": {
-              "id": 11,
+              "id": 23,
               "keyType": {
-                "id": 9,
+                "id": 21,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "225:7:0",
+                "src": "508:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "216:32:0",
+              "src": "499:32:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Participant_$8_storage_$",
                 "typeString": "mapping(address => struct Grouping.Participant)"
               },
               "valueType": {
                 "contractScope": null,
-                "id": 10,
+                "id": 22,
                 "name": "Participant",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 8,
-                "src": "236:11:0",
+                "src": "519:11:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
                   "typeString": "struct Grouping.Participant"
@@ -280,43 +436,45 @@
           },
           {
             "constant": false,
-            "id": 16,
-            "name": "groups",
+            "id": 28,
+            "name": "addressToGroup",
             "nodeType": "VariableDeclaration",
-            "scope": 64,
-            "src": "310:39:0",
+            "scope": 132,
+            "src": "601:48:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
-              "typeString": "mapping(address => uint256)"
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Group_$14_storage_$",
+              "typeString": "mapping(address => struct Grouping.Group)"
             },
             "typeName": {
-              "id": 15,
+              "id": 27,
               "keyType": {
-                "id": 13,
+                "id": 25,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "319:7:0",
+                "src": "610:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "310:25:0",
+              "src": "601:26:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
-                "typeString": "mapping(address => uint256)"
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Group_$14_storage_$",
+                "typeString": "mapping(address => struct Grouping.Group)"
               },
               "valueType": {
-                "id": 14,
-                "name": "uint",
-                "nodeType": "ElementaryTypeName",
-                "src": "330:4:0",
+                "contractScope": null,
+                "id": 26,
+                "name": "Group",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 14,
+                "src": "621:5:0",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                  "typeString": "struct Grouping.Group"
                 }
               }
             },
@@ -325,26 +483,26 @@
           },
           {
             "body": {
-              "id": 24,
+              "id": 36,
               "nodeType": "Block",
-              "src": "417:35:0",
+              "src": "717:35:0",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 22,
+                    "id": 34,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 19,
+                      "id": 31,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 3,
-                      "src": "427:5:0",
+                      "src": "727:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -356,18 +514,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 20,
+                        "id": 32,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 136,
-                        "src": "435:3:0",
+                        "referencedDeclaration": 204,
+                        "src": "735:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 21,
+                      "id": 33,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -375,59 +533,249 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "435:10:0",
+                      "src": "735:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address_payable",
                         "typeString": "address payable"
                       }
                     },
-                    "src": "427:18:0",
+                    "src": "727:18:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "id": 23,
+                  "id": 35,
                   "nodeType": "ExpressionStatement",
-                  "src": "427:18:0"
+                  "src": "727:18:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 25,
+            "id": 37,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17,
+              "id": 29,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "407:2:0"
+              "src": "707:2:0"
             },
             "returnParameters": {
-              "id": 18,
+              "id": 30,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "417:0:0"
+              "src": "717:0:0"
             },
-            "scope": 64,
-            "src": "396:56:0",
+            "scope": 132,
+            "src": "696:56:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 41,
+              "id": 73,
               "nodeType": "Block",
-              "src": "537:74:0",
+              "src": "837:443:0",
               "statements": [
+                {
+                  "assignments": [
+                    43
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 43,
+                      "name": "participant",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 73,
+                      "src": "883:30:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                        "typeString": "struct Grouping.Participant"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 42,
+                        "name": "Participant",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 8,
+                        "src": "883:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
+                          "typeString": "struct Grouping.Participant"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 49,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 45,
+                        "name": "_name",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 39,
+                        "src": "928:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 46,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 204,
+                          "src": "935:3:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 47,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "935:10:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "id": 44,
+                      "name": "Participant",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 8,
+                      "src": "916:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Participant_$8_storage_ptr_$",
+                        "typeString": "type(struct Grouping.Participant storage pointer)"
+                      }
+                    },
+                    "id": 48,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "916:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Participant_$8_memory",
+                      "typeString": "struct Grouping.Participant memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "883:63:0"
+                },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 39,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 53,
+                        "name": "participant",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 43,
+                        "src": "1006:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 50,
+                        "name": "participants",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 20,
+                        "src": "988:12:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Participant_$8_storage_$dyn_storage",
+                          "typeString": "struct Grouping.Participant storage ref[] storage ref"
+                        }
+                      },
+                      "id": 52,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "988:17:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Participant_$8_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct Grouping.Participant storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 54,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "988:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 55,
+                  "nodeType": "ExpressionStatement",
+                  "src": "988:30:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 61,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -436,34 +784,34 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 30,
-                        "name": "participants",
+                        "id": 56,
+                        "name": "addressToParticipant",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 12,
-                        "src": "547:12:0",
+                        "referencedDeclaration": 24,
+                        "src": "1062:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Participant_$8_storage_$",
                           "typeString": "mapping(address => struct Grouping.Participant storage ref)"
                         }
                       },
-                      "id": 33,
+                      "id": 59,
                       "indexExpression": {
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 31,
+                          "id": 57,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 136,
-                          "src": "560:3:0",
+                          "referencedDeclaration": 204,
+                          "src": "1083:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 32,
+                        "id": 58,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -471,7 +819,7 @@
                         "memberName": "sender",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": null,
-                        "src": "560:10:0",
+                        "src": "1083:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
                           "typeString": "address payable"
@@ -482,7 +830,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "547:24:0",
+                      "src": "1062:32:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Participant_$8_storage",
                         "typeString": "struct Grouping.Participant storage ref"
@@ -492,116 +840,186 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "arguments": [
-                        {
-                          "argumentTypes": null,
-                          "id": 35,
-                          "name": "_name",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 27,
-                          "src": "586:5:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_string_memory_ptr",
-                            "typeString": "string memory"
-                          }
-                        },
-                        {
-                          "argumentTypes": null,
-                          "expression": {
-                            "argumentTypes": null,
-                            "id": 36,
-                            "name": "msg",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 136,
-                            "src": "593:3:0",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_magic_message",
-                              "typeString": "msg"
-                            }
-                          },
-                          "id": 37,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "memberName": "sender",
-                          "nodeType": "MemberAccess",
-                          "referencedDeclaration": null,
-                          "src": "593:10:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_address_payable",
-                            "typeString": "address payable"
-                          }
-                        }
-                      ],
-                      "expression": {
-                        "argumentTypes": [
-                          {
-                            "typeIdentifier": "t_string_memory_ptr",
-                            "typeString": "string memory"
-                          },
-                          {
-                            "typeIdentifier": "t_address_payable",
-                            "typeString": "address payable"
-                          }
-                        ],
-                        "id": 34,
-                        "name": "Participant",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 8,
-                        "src": "574:11:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Participant_$8_storage_ptr_$",
-                          "typeString": "type(struct Grouping.Participant storage pointer)"
-                        }
-                      },
-                      "id": 38,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "kind": "structConstructorCall",
-                      "lValueRequested": false,
-                      "names": [],
-                      "nodeType": "FunctionCall",
-                      "src": "574:30:0",
+                      "id": 60,
+                      "name": "participant",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 43,
+                      "src": "1097:11:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Participant_$8_memory",
+                        "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
                         "typeString": "struct Grouping.Participant memory"
                       }
                     },
-                    "src": "547:57:0",
+                    "src": "1062:46:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Participant_$8_storage",
                       "typeString": "struct Grouping.Participant storage ref"
                     }
                   },
-                  "id": 40,
+                  "id": 62,
                   "nodeType": "ExpressionStatement",
-                  "src": "547:57:0"
+                  "src": "1062:46:0"
+                },
+                {
+                  "assignments": [
+                    64
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 64,
+                      "name": "group",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 73,
+                      "src": "1148:18:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                        "typeString": "struct Grouping.Group"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 63,
+                        "name": "Group",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 14,
+                        "src": "1148:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                          "typeString": "struct Grouping.Group"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 67,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 65,
+                      "name": "createGroup",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 116,
+                      "src": "1169:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$_t_struct$_Group_$14_memory_ptr_$",
+                        "typeString": "function () returns (struct Grouping.Group memory)"
+                      }
+                    },
+                    "id": 66,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1169:13:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                      "typeString": "struct Grouping.Group memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1148:34:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 69,
+                        "name": "participant",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 43,
+                        "src": "1254:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 70,
+                        "name": "group",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 64,
+                        "src": "1267:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        },
+                        {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      ],
+                      "id": 68,
+                      "name": "addParticipantToGroup",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 131,
+                      "src": "1232:21:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Participant_$8_memory_ptr_$_t_struct$_Group_$14_memory_ptr_$returns$__$",
+                        "typeString": "function (struct Grouping.Participant memory,struct Grouping.Group memory)"
+                      }
+                    },
+                    "id": 71,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1232:41:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 72,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1232:41:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 42,
+            "id": 74,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "register",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 28,
+              "id": 40,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 27,
+                  "id": 39,
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 42,
-                  "src": "509:19:0",
+                  "scope": 74,
+                  "src": "809:19:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -609,10 +1027,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 26,
+                    "id": 38,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "509:6:0",
+                    "src": "809:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -622,38 +1040,38 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "508:21:0"
+              "src": "808:21:0"
             },
             "returnParameters": {
-              "id": 29,
+              "id": 41,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "537:0:0"
+              "src": "837:0:0"
             },
-            "scope": 64,
-            "src": "491:120:0",
+            "scope": 132,
+            "src": "791:489:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 62,
+              "id": 94,
               "nodeType": "Block",
-              "src": "740:141:0",
+              "src": "1409:149:0",
               "statements": [
                 {
                   "assignments": [
-                    50
+                    82
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 50,
+                      "id": 82,
                       "name": "participant",
                       "nodeType": "VariableDeclaration",
-                      "scope": 62,
-                      "src": "750:30:0",
+                      "scope": 94,
+                      "src": "1419:30:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -662,11 +1080,11 @@
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 49,
+                        "id": 81,
                         "name": "Participant",
                         "nodeType": "UserDefinedTypeName",
                         "referencedDeclaration": 8,
-                        "src": "750:11:0",
+                        "src": "1419:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
                           "typeString": "struct Grouping.Participant"
@@ -676,39 +1094,39 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 55,
+                  "id": 87,
                   "initialValue": {
                     "argumentTypes": null,
                     "baseExpression": {
                       "argumentTypes": null,
-                      "id": 51,
-                      "name": "participants",
+                      "id": 83,
+                      "name": "addressToParticipant",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12,
-                      "src": "783:12:0",
+                      "referencedDeclaration": 24,
+                      "src": "1452:20:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Participant_$8_storage_$",
                         "typeString": "mapping(address => struct Grouping.Participant storage ref)"
                       }
                     },
-                    "id": 54,
+                    "id": 86,
                     "indexExpression": {
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 52,
+                        "id": 84,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 136,
-                        "src": "796:3:0",
+                        "referencedDeclaration": 204,
+                        "src": "1473:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 53,
+                      "id": 85,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -716,7 +1134,7 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "796:10:0",
+                      "src": "1473:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address_payable",
                         "typeString": "address payable"
@@ -727,14 +1145,14 @@
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "IndexAccess",
-                    "src": "783:24:0",
+                    "src": "1452:32:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Participant_$8_storage",
                       "typeString": "struct Grouping.Participant storage ref"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "750:57:0"
+                  "src": "1419:65:0"
                 },
                 {
                   "expression": {
@@ -744,18 +1162,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 56,
+                          "id": 88,
                           "name": "participant",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 50,
-                          "src": "825:11:0",
+                          "referencedDeclaration": 82,
+                          "src": "1502:11:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
                             "typeString": "struct Grouping.Participant memory"
                           }
                         },
-                        "id": 57,
+                        "id": 89,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -763,7 +1181,7 @@
                         "memberName": "name",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 5,
-                        "src": "825:16:0",
+                        "src": "1502:16:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory",
                           "typeString": "string memory"
@@ -773,18 +1191,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 58,
+                          "id": 90,
                           "name": "participant",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 50,
-                          "src": "843:11:0",
+                          "referencedDeclaration": 82,
+                          "src": "1520:11:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
                             "typeString": "struct Grouping.Participant memory"
                           }
                         },
-                        "id": 59,
+                        "id": 91,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -792,57 +1210,57 @@
                         "memberName": "participantAddress",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 7,
-                        "src": "843:30:0",
+                        "src": "1520:30:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       }
                     ],
-                    "id": 60,
+                    "id": 92,
                     "isConstant": false,
                     "isInlineArray": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "TupleExpression",
-                    "src": "824:50:0",
+                    "src": "1501:50:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_string_memory_$_t_address_$",
                       "typeString": "tuple(string memory,address)"
                     }
                   },
-                  "functionReturnParameters": 48,
-                  "id": 61,
+                  "functionReturnParameters": 80,
+                  "id": 93,
                   "nodeType": "Return",
-                  "src": "817:57:0"
+                  "src": "1494:57:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 63,
+            "id": 95,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getParticipant",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 43,
+              "id": 75,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "668:2:0"
+              "src": "1337:2:0"
             },
             "returnParameters": {
-              "id": 48,
+              "id": 80,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 45,
+                  "id": 77,
                   "name": "name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 63,
-                  "src": "692:18:0",
+                  "scope": 95,
+                  "src": "1361:18:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -850,10 +1268,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 44,
+                    "id": 76,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "692:6:0",
+                    "src": "1361:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -864,11 +1282,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 47,
+                  "id": 79,
                   "name": "participantAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 63,
-                  "src": "712:26:0",
+                  "scope": 95,
+                  "src": "1381:26:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -876,10 +1294,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 46,
+                    "id": 78,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "712:7:0",
+                    "src": "1381:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -890,29 +1308,462 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "691:48:0"
+              "src": "1360:48:0"
             },
-            "scope": 64,
-            "src": "645:236:0",
+            "scope": 132,
+            "src": "1314:244:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 115,
+              "nodeType": "Block",
+              "src": "1644:107:0",
+              "statements": [
+                {
+                  "assignments": [
+                    101
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 101,
+                      "name": "group",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 115,
+                      "src": "1654:18:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                        "typeString": "struct Grouping.Group"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 100,
+                        "name": "Group",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 14,
+                        "src": "1654:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                          "typeString": "struct Grouping.Group"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 106,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 104,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "UnaryOperation",
+                        "operator": "++",
+                        "prefix": false,
+                        "src": "1681:12:0",
+                        "subExpression": {
+                          "argumentTypes": null,
+                          "id": 103,
+                          "name": "groupCount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11,
+                          "src": "1681:10:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 102,
+                      "name": "Group",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 14,
+                      "src": "1675:5:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Group_$14_storage_ptr_$",
+                        "typeString": "type(struct Grouping.Group storage pointer)"
+                      }
+                    },
+                    "id": 105,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1675:19:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_memory",
+                      "typeString": "struct Grouping.Group memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1654:40:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 110,
+                        "name": "group",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 101,
+                        "src": "1716:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 107,
+                        "name": "groups",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 17,
+                        "src": "1704:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Group_$14_storage_$dyn_storage",
+                          "typeString": "struct Grouping.Group storage ref[] storage ref"
+                        }
+                      },
+                      "id": 109,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "1704:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Group_$14_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct Grouping.Group storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 111,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1704:18:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 112,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1704:18:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 113,
+                    "name": "group",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 101,
+                    "src": "1739:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                      "typeString": "struct Grouping.Group memory"
+                    }
+                  },
+                  "functionReturnParameters": 99,
+                  "id": 114,
+                  "nodeType": "Return",
+                  "src": "1732:12:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 116,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createGroup",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 96,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1610:2:0"
+            },
+            "returnParameters": {
+              "id": 99,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 98,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 116,
+                  "src": "1630:12:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                    "typeString": "struct Grouping.Group"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 97,
+                    "name": "Group",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 14,
+                    "src": "1630:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                      "typeString": "struct Grouping.Group"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1629:14:0"
+            },
+            "scope": 132,
+            "src": "1590:161:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 130,
+              "nodeType": "Block",
+              "src": "1880:71:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 128,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 123,
+                        "name": "addressToGroup",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 28,
+                        "src": "1890:14:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Group_$14_storage_$",
+                          "typeString": "mapping(address => struct Grouping.Group storage ref)"
+                        }
+                      },
+                      "id": 126,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 124,
+                          "name": "participant",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 118,
+                          "src": "1905:11:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                            "typeString": "struct Grouping.Participant memory"
+                          }
+                        },
+                        "id": 125,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "participantAddress",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 7,
+                        "src": "1905:30:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1890:46:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_storage",
+                        "typeString": "struct Grouping.Group storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 127,
+                      "name": "group",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 120,
+                      "src": "1939:5:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                        "typeString": "struct Grouping.Group memory"
+                      }
+                    },
+                    "src": "1890:54:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_storage",
+                      "typeString": "struct Grouping.Group storage ref"
+                    }
+                  },
+                  "id": 129,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1890:54:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 131,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addParticipantToGroup",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 121,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 118,
+                  "name": "participant",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 131,
+                  "src": "1820:30:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                    "typeString": "struct Grouping.Participant"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 117,
+                    "name": "Participant",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 8,
+                    "src": "1820:11:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
+                      "typeString": "struct Grouping.Participant"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 120,
+                  "name": "group",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 131,
+                  "src": "1852:18:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                    "typeString": "struct Grouping.Group"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 119,
+                    "name": "Group",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 14,
+                    "src": "1852:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                      "typeString": "struct Grouping.Group"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1819:52:0"
+            },
+            "returnParameters": {
+              "id": 122,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1880:0:0"
+            },
+            "scope": 132,
+            "src": "1789:162:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "private"
           }
         ],
-        "scope": 65,
-        "src": "34:849:0"
+        "scope": 133,
+        "src": "34:1919:0"
       }
     ],
-    "src": "0:884:0"
+    "src": "0:1954:0"
   },
   "legacyAST": {
     "absolutePath": "/Users/florens/Documents/Master/Master Thesis/grouping/contracts/Grouping.sol",
     "exportedSymbols": {
       "Grouping": [
-        64
+        132
       ]
     },
-    "id": 65,
+    "id": 133,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -935,9 +1786,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 64,
+        "id": 132,
         "linearizedBaseContracts": [
-          64
+          132
         ],
         "name": "Grouping",
         "nodeType": "ContractDefinition",
@@ -947,8 +1798,8 @@
             "id": 3,
             "name": "owner",
             "nodeType": "VariableDeclaration",
-            "scope": 64,
-            "src": "58:20:0",
+            "scope": 132,
+            "src": "91:20:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -959,7 +1810,7 @@
               "id": 2,
               "name": "address",
               "nodeType": "ElementaryTypeName",
-              "src": "58:7:0",
+              "src": "91:7:0",
               "stateMutability": "nonpayable",
               "typeDescriptions": {
                 "typeIdentifier": "t_address",
@@ -979,7 +1830,7 @@
                 "name": "name",
                 "nodeType": "VariableDeclaration",
                 "scope": 8,
-                "src": "114:11:0",
+                "src": "168:11:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -990,7 +1841,7 @@
                   "id": 4,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "114:6:0",
+                  "src": "168:6:0",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -1005,7 +1856,7 @@
                 "name": "participantAddress",
                 "nodeType": "VariableDeclaration",
                 "scope": 8,
-                "src": "135:26:0",
+                "src": "189:26:0",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1016,7 +1867,7 @@
                   "id": 6,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
-                  "src": "135:7:0",
+                  "src": "189:7:0",
                   "stateMutability": "nonpayable",
                   "typeDescriptions": {
                     "typeIdentifier": "t_address",
@@ -1029,17 +1880,173 @@
             ],
             "name": "Participant",
             "nodeType": "StructDefinition",
-            "scope": 64,
-            "src": "85:83:0",
+            "scope": 132,
+            "src": "139:83:0",
             "visibility": "public"
           },
           {
             "constant": false,
-            "id": 12,
+            "id": 11,
+            "name": "groupCount",
+            "nodeType": "VariableDeclaration",
+            "scope": 132,
+            "src": "252:27:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 9,
+              "name": "uint",
+              "nodeType": "ElementaryTypeName",
+              "src": "252:4:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 10,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "278:1:0",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "private"
+          },
+          {
+            "canonicalName": "Grouping.Group",
+            "id": 14,
+            "members": [
+              {
+                "constant": false,
+                "id": 13,
+                "name": "groupNumber",
+                "nodeType": "VariableDeclaration",
+                "scope": 14,
+                "src": "324:16:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 12,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "324:4:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Group",
+            "nodeType": "StructDefinition",
+            "scope": 132,
+            "src": "301:46:0",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 17,
+            "name": "groups",
+            "nodeType": "VariableDeclaration",
+            "scope": 132,
+            "src": "375:14:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Group_$14_storage_$dyn_storage",
+              "typeString": "struct Grouping.Group[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 15,
+                "name": "Group",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 14,
+                "src": "375:5:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                  "typeString": "struct Grouping.Group"
+                }
+              },
+              "id": 16,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "375:7:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Group_$14_storage_$dyn_storage_ptr",
+                "typeString": "struct Grouping.Group[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 20,
             "name": "participants",
             "nodeType": "VariableDeclaration",
-            "scope": 64,
-            "src": "216:52:0",
+            "scope": 132,
+            "src": "424:26:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_struct$_Participant_$8_storage_$dyn_storage",
+              "typeString": "struct Grouping.Participant[]"
+            },
+            "typeName": {
+              "baseType": {
+                "contractScope": null,
+                "id": 18,
+                "name": "Participant",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 8,
+                "src": "424:11:0",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
+                  "typeString": "struct Grouping.Participant"
+                }
+              },
+              "id": 19,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "424:13:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_struct$_Participant_$8_storage_$dyn_storage_ptr",
+                "typeString": "struct Grouping.Participant[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 24,
+            "name": "addressToParticipant",
+            "nodeType": "VariableDeclaration",
+            "scope": 132,
+            "src": "499:60:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -1047,30 +2054,30 @@
               "typeString": "mapping(address => struct Grouping.Participant)"
             },
             "typeName": {
-              "id": 11,
+              "id": 23,
               "keyType": {
-                "id": 9,
+                "id": 21,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "225:7:0",
+                "src": "508:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "216:32:0",
+              "src": "499:32:0",
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Participant_$8_storage_$",
                 "typeString": "mapping(address => struct Grouping.Participant)"
               },
               "valueType": {
                 "contractScope": null,
-                "id": 10,
+                "id": 22,
                 "name": "Participant",
                 "nodeType": "UserDefinedTypeName",
                 "referencedDeclaration": 8,
-                "src": "236:11:0",
+                "src": "519:11:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
                   "typeString": "struct Grouping.Participant"
@@ -1082,43 +2089,45 @@
           },
           {
             "constant": false,
-            "id": 16,
-            "name": "groups",
+            "id": 28,
+            "name": "addressToGroup",
             "nodeType": "VariableDeclaration",
-            "scope": 64,
-            "src": "310:39:0",
+            "scope": 132,
+            "src": "601:48:0",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
-              "typeString": "mapping(address => uint256)"
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Group_$14_storage_$",
+              "typeString": "mapping(address => struct Grouping.Group)"
             },
             "typeName": {
-              "id": 15,
+              "id": 27,
               "keyType": {
-                "id": 13,
+                "id": 25,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
-                "src": "319:7:0",
+                "src": "610:7:0",
                 "typeDescriptions": {
                   "typeIdentifier": "t_address",
                   "typeString": "address"
                 }
               },
               "nodeType": "Mapping",
-              "src": "310:25:0",
+              "src": "601:26:0",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
-                "typeString": "mapping(address => uint256)"
+                "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Group_$14_storage_$",
+                "typeString": "mapping(address => struct Grouping.Group)"
               },
               "valueType": {
-                "id": 14,
-                "name": "uint",
-                "nodeType": "ElementaryTypeName",
-                "src": "330:4:0",
+                "contractScope": null,
+                "id": 26,
+                "name": "Group",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 14,
+                "src": "621:5:0",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
+                  "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                  "typeString": "struct Grouping.Group"
                 }
               }
             },
@@ -1127,26 +2136,26 @@
           },
           {
             "body": {
-              "id": 24,
+              "id": 36,
               "nodeType": "Block",
-              "src": "417:35:0",
+              "src": "717:35:0",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 22,
+                    "id": 34,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 19,
+                      "id": 31,
                       "name": "owner",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
                       "referencedDeclaration": 3,
-                      "src": "427:5:0",
+                      "src": "727:5:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -1158,18 +2167,18 @@
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 20,
+                        "id": 32,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 136,
-                        "src": "435:3:0",
+                        "referencedDeclaration": 204,
+                        "src": "735:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 21,
+                      "id": 33,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1177,59 +2186,249 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "435:10:0",
+                      "src": "735:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address_payable",
                         "typeString": "address payable"
                       }
                     },
-                    "src": "427:18:0",
+                    "src": "727:18:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "id": 23,
+                  "id": 35,
                   "nodeType": "ExpressionStatement",
-                  "src": "427:18:0"
+                  "src": "727:18:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 25,
+            "id": 37,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17,
+              "id": 29,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "407:2:0"
+              "src": "707:2:0"
             },
             "returnParameters": {
-              "id": 18,
+              "id": 30,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "417:0:0"
+              "src": "717:0:0"
             },
-            "scope": 64,
-            "src": "396:56:0",
+            "scope": 132,
+            "src": "696:56:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 41,
+              "id": 73,
               "nodeType": "Block",
-              "src": "537:74:0",
+              "src": "837:443:0",
               "statements": [
+                {
+                  "assignments": [
+                    43
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 43,
+                      "name": "participant",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 73,
+                      "src": "883:30:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                        "typeString": "struct Grouping.Participant"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 42,
+                        "name": "Participant",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 8,
+                        "src": "883:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
+                          "typeString": "struct Grouping.Participant"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 49,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 45,
+                        "name": "_name",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 39,
+                        "src": "928:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 46,
+                          "name": "msg",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 204,
+                          "src": "935:3:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_magic_message",
+                            "typeString": "msg"
+                          }
+                        },
+                        "id": 47,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "sender",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": null,
+                        "src": "935:10:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "id": 44,
+                      "name": "Participant",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 8,
+                      "src": "916:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Participant_$8_storage_ptr_$",
+                        "typeString": "type(struct Grouping.Participant storage pointer)"
+                      }
+                    },
+                    "id": 48,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "916:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Participant_$8_memory",
+                      "typeString": "struct Grouping.Participant memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "883:63:0"
+                },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 39,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 53,
+                        "name": "participant",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 43,
+                        "src": "1006:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 50,
+                        "name": "participants",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 20,
+                        "src": "988:12:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Participant_$8_storage_$dyn_storage",
+                          "typeString": "struct Grouping.Participant storage ref[] storage ref"
+                        }
+                      },
+                      "id": 52,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "988:17:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Participant_$8_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct Grouping.Participant storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 54,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "988:30:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 55,
+                  "nodeType": "ExpressionStatement",
+                  "src": "988:30:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 61,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1238,34 +2437,34 @@
                       "argumentTypes": null,
                       "baseExpression": {
                         "argumentTypes": null,
-                        "id": 30,
-                        "name": "participants",
+                        "id": 56,
+                        "name": "addressToParticipant",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 12,
-                        "src": "547:12:0",
+                        "referencedDeclaration": 24,
+                        "src": "1062:20:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Participant_$8_storage_$",
                           "typeString": "mapping(address => struct Grouping.Participant storage ref)"
                         }
                       },
-                      "id": 33,
+                      "id": 59,
                       "indexExpression": {
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 31,
+                          "id": 57,
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 136,
-                          "src": "560:3:0",
+                          "referencedDeclaration": 204,
+                          "src": "1083:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
                             "typeString": "msg"
                           }
                         },
-                        "id": 32,
+                        "id": 58,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1273,7 +2472,7 @@
                         "memberName": "sender",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": null,
-                        "src": "560:10:0",
+                        "src": "1083:10:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
                           "typeString": "address payable"
@@ -1284,7 +2483,7 @@
                       "isPure": false,
                       "lValueRequested": true,
                       "nodeType": "IndexAccess",
-                      "src": "547:24:0",
+                      "src": "1062:32:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_Participant_$8_storage",
                         "typeString": "struct Grouping.Participant storage ref"
@@ -1294,116 +2493,186 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "arguments": [
-                        {
-                          "argumentTypes": null,
-                          "id": 35,
-                          "name": "_name",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 27,
-                          "src": "586:5:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_string_memory_ptr",
-                            "typeString": "string memory"
-                          }
-                        },
-                        {
-                          "argumentTypes": null,
-                          "expression": {
-                            "argumentTypes": null,
-                            "id": 36,
-                            "name": "msg",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 136,
-                            "src": "593:3:0",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_magic_message",
-                              "typeString": "msg"
-                            }
-                          },
-                          "id": 37,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "memberName": "sender",
-                          "nodeType": "MemberAccess",
-                          "referencedDeclaration": null,
-                          "src": "593:10:0",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_address_payable",
-                            "typeString": "address payable"
-                          }
-                        }
-                      ],
-                      "expression": {
-                        "argumentTypes": [
-                          {
-                            "typeIdentifier": "t_string_memory_ptr",
-                            "typeString": "string memory"
-                          },
-                          {
-                            "typeIdentifier": "t_address_payable",
-                            "typeString": "address payable"
-                          }
-                        ],
-                        "id": 34,
-                        "name": "Participant",
-                        "nodeType": "Identifier",
-                        "overloadedDeclarations": [],
-                        "referencedDeclaration": 8,
-                        "src": "574:11:0",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_struct$_Participant_$8_storage_ptr_$",
-                          "typeString": "type(struct Grouping.Participant storage pointer)"
-                        }
-                      },
-                      "id": 38,
-                      "isConstant": false,
-                      "isLValue": false,
-                      "isPure": false,
-                      "kind": "structConstructorCall",
-                      "lValueRequested": false,
-                      "names": [],
-                      "nodeType": "FunctionCall",
-                      "src": "574:30:0",
+                      "id": 60,
+                      "name": "participant",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 43,
+                      "src": "1097:11:0",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_Participant_$8_memory",
+                        "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
                         "typeString": "struct Grouping.Participant memory"
                       }
                     },
-                    "src": "547:57:0",
+                    "src": "1062:46:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Participant_$8_storage",
                       "typeString": "struct Grouping.Participant storage ref"
                     }
                   },
-                  "id": 40,
+                  "id": 62,
                   "nodeType": "ExpressionStatement",
-                  "src": "547:57:0"
+                  "src": "1062:46:0"
+                },
+                {
+                  "assignments": [
+                    64
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 64,
+                      "name": "group",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 73,
+                      "src": "1148:18:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                        "typeString": "struct Grouping.Group"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 63,
+                        "name": "Group",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 14,
+                        "src": "1148:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                          "typeString": "struct Grouping.Group"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 67,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "id": 65,
+                      "name": "createGroup",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 116,
+                      "src": "1169:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$__$returns$_t_struct$_Group_$14_memory_ptr_$",
+                        "typeString": "function () returns (struct Grouping.Group memory)"
+                      }
+                    },
+                    "id": 66,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1169:13:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                      "typeString": "struct Grouping.Group memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1148:34:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 69,
+                        "name": "participant",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 43,
+                        "src": "1254:11:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 70,
+                        "name": "group",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 64,
+                        "src": "1267:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                          "typeString": "struct Grouping.Participant memory"
+                        },
+                        {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      ],
+                      "id": 68,
+                      "name": "addParticipantToGroup",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 131,
+                      "src": "1232:21:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_struct$_Participant_$8_memory_ptr_$_t_struct$_Group_$14_memory_ptr_$returns$__$",
+                        "typeString": "function (struct Grouping.Participant memory,struct Grouping.Group memory)"
+                      }
+                    },
+                    "id": 71,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1232:41:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 72,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1232:41:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 42,
+            "id": 74,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "register",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 28,
+              "id": 40,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 27,
+                  "id": 39,
                   "name": "_name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 42,
-                  "src": "509:19:0",
+                  "scope": 74,
+                  "src": "809:19:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1411,10 +2680,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 26,
+                    "id": 38,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "509:6:0",
+                    "src": "809:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1424,38 +2693,38 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "508:21:0"
+              "src": "808:21:0"
             },
             "returnParameters": {
-              "id": 29,
+              "id": 41,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "537:0:0"
+              "src": "837:0:0"
             },
-            "scope": 64,
-            "src": "491:120:0",
+            "scope": 132,
+            "src": "791:489:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 62,
+              "id": 94,
               "nodeType": "Block",
-              "src": "740:141:0",
+              "src": "1409:149:0",
               "statements": [
                 {
                   "assignments": [
-                    50
+                    82
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 50,
+                      "id": 82,
                       "name": "participant",
                       "nodeType": "VariableDeclaration",
-                      "scope": 62,
-                      "src": "750:30:0",
+                      "scope": 94,
+                      "src": "1419:30:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "typeDescriptions": {
@@ -1464,11 +2733,11 @@
                       },
                       "typeName": {
                         "contractScope": null,
-                        "id": 49,
+                        "id": 81,
                         "name": "Participant",
                         "nodeType": "UserDefinedTypeName",
                         "referencedDeclaration": 8,
-                        "src": "750:11:0",
+                        "src": "1419:11:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
                           "typeString": "struct Grouping.Participant"
@@ -1478,39 +2747,39 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 55,
+                  "id": 87,
                   "initialValue": {
                     "argumentTypes": null,
                     "baseExpression": {
                       "argumentTypes": null,
-                      "id": 51,
-                      "name": "participants",
+                      "id": 83,
+                      "name": "addressToParticipant",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 12,
-                      "src": "783:12:0",
+                      "referencedDeclaration": 24,
+                      "src": "1452:20:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Participant_$8_storage_$",
                         "typeString": "mapping(address => struct Grouping.Participant storage ref)"
                       }
                     },
-                    "id": 54,
+                    "id": 86,
                     "indexExpression": {
                       "argumentTypes": null,
                       "expression": {
                         "argumentTypes": null,
-                        "id": 52,
+                        "id": 84,
                         "name": "msg",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 136,
-                        "src": "796:3:0",
+                        "referencedDeclaration": 204,
+                        "src": "1473:3:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_message",
                           "typeString": "msg"
                         }
                       },
-                      "id": 53,
+                      "id": 85,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1518,7 +2787,7 @@
                       "memberName": "sender",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": null,
-                      "src": "796:10:0",
+                      "src": "1473:10:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address_payable",
                         "typeString": "address payable"
@@ -1529,14 +2798,14 @@
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "IndexAccess",
-                    "src": "783:24:0",
+                    "src": "1452:32:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_struct$_Participant_$8_storage",
                       "typeString": "struct Grouping.Participant storage ref"
                     }
                   },
                   "nodeType": "VariableDeclarationStatement",
-                  "src": "750:57:0"
+                  "src": "1419:65:0"
                 },
                 {
                   "expression": {
@@ -1546,18 +2815,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 56,
+                          "id": 88,
                           "name": "participant",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 50,
-                          "src": "825:11:0",
+                          "referencedDeclaration": 82,
+                          "src": "1502:11:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
                             "typeString": "struct Grouping.Participant memory"
                           }
                         },
-                        "id": 57,
+                        "id": 89,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -1565,7 +2834,7 @@
                         "memberName": "name",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 5,
-                        "src": "825:16:0",
+                        "src": "1502:16:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_string_memory",
                           "typeString": "string memory"
@@ -1575,18 +2844,18 @@
                         "argumentTypes": null,
                         "expression": {
                           "argumentTypes": null,
-                          "id": 58,
+                          "id": 90,
                           "name": "participant",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 50,
-                          "src": "843:11:0",
+                          "referencedDeclaration": 82,
+                          "src": "1520:11:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
                             "typeString": "struct Grouping.Participant memory"
                           }
                         },
-                        "id": 59,
+                        "id": 91,
                         "isConstant": false,
                         "isLValue": true,
                         "isPure": false,
@@ -1594,57 +2863,57 @@
                         "memberName": "participantAddress",
                         "nodeType": "MemberAccess",
                         "referencedDeclaration": 7,
-                        "src": "843:30:0",
+                        "src": "1520:30:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       }
                     ],
-                    "id": 60,
+                    "id": 92,
                     "isConstant": false,
                     "isInlineArray": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "nodeType": "TupleExpression",
-                    "src": "824:50:0",
+                    "src": "1501:50:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$_t_string_memory_$_t_address_$",
                       "typeString": "tuple(string memory,address)"
                     }
                   },
-                  "functionReturnParameters": 48,
-                  "id": 61,
+                  "functionReturnParameters": 80,
+                  "id": 93,
                   "nodeType": "Return",
-                  "src": "817:57:0"
+                  "src": "1494:57:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 63,
+            "id": 95,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getParticipant",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 43,
+              "id": 75,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "668:2:0"
+              "src": "1337:2:0"
             },
             "returnParameters": {
-              "id": 48,
+              "id": 80,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 45,
+                  "id": 77,
                   "name": "name",
                   "nodeType": "VariableDeclaration",
-                  "scope": 63,
-                  "src": "692:18:0",
+                  "scope": 95,
+                  "src": "1361:18:0",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
@@ -1652,10 +2921,10 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 44,
+                    "id": 76,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
-                    "src": "692:6:0",
+                    "src": "1361:6:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage_ptr",
                       "typeString": "string"
@@ -1666,11 +2935,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 47,
+                  "id": 79,
                   "name": "participantAddress",
                   "nodeType": "VariableDeclaration",
-                  "scope": 63,
-                  "src": "712:26:0",
+                  "scope": 95,
+                  "src": "1381:26:0",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1678,10 +2947,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 46,
+                    "id": 78,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "712:7:0",
+                    "src": "1381:7:0",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1692,20 +2961,453 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "691:48:0"
+              "src": "1360:48:0"
             },
-            "scope": 64,
-            "src": "645:236:0",
+            "scope": 132,
+            "src": "1314:244:0",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 115,
+              "nodeType": "Block",
+              "src": "1644:107:0",
+              "statements": [
+                {
+                  "assignments": [
+                    101
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 101,
+                      "name": "group",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 115,
+                      "src": "1654:18:0",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                        "typeString": "struct Grouping.Group"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 100,
+                        "name": "Group",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 14,
+                        "src": "1654:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                          "typeString": "struct Grouping.Group"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 106,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 104,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "UnaryOperation",
+                        "operator": "++",
+                        "prefix": false,
+                        "src": "1681:12:0",
+                        "subExpression": {
+                          "argumentTypes": null,
+                          "id": 103,
+                          "name": "groupCount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 11,
+                          "src": "1681:10:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "id": 102,
+                      "name": "Group",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 14,
+                      "src": "1675:5:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Group_$14_storage_ptr_$",
+                        "typeString": "type(struct Grouping.Group storage pointer)"
+                      }
+                    },
+                    "id": 105,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1675:19:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_memory",
+                      "typeString": "struct Grouping.Group memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1654:40:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 110,
+                        "name": "group",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 101,
+                        "src": "1716:5:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                          "typeString": "struct Grouping.Group memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 107,
+                        "name": "groups",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 17,
+                        "src": "1704:6:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Group_$14_storage_$dyn_storage",
+                          "typeString": "struct Grouping.Group storage ref[] storage ref"
+                        }
+                      },
+                      "id": 109,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "1704:11:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Group_$14_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct Grouping.Group storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 111,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1704:18:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 112,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1704:18:0"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 113,
+                    "name": "group",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 101,
+                    "src": "1739:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                      "typeString": "struct Grouping.Group memory"
+                    }
+                  },
+                  "functionReturnParameters": 99,
+                  "id": 114,
+                  "nodeType": "Return",
+                  "src": "1732:12:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 116,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "createGroup",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 96,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1610:2:0"
+            },
+            "returnParameters": {
+              "id": 99,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 98,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 116,
+                  "src": "1630:12:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                    "typeString": "struct Grouping.Group"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 97,
+                    "name": "Group",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 14,
+                    "src": "1630:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                      "typeString": "struct Grouping.Group"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1629:14:0"
+            },
+            "scope": 132,
+            "src": "1590:161:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 130,
+              "nodeType": "Block",
+              "src": "1880:71:0",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 128,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 123,
+                        "name": "addressToGroup",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 28,
+                        "src": "1890:14:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Group_$14_storage_$",
+                          "typeString": "mapping(address => struct Grouping.Group storage ref)"
+                        }
+                      },
+                      "id": 126,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "id": 124,
+                          "name": "participant",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 118,
+                          "src": "1905:11:0",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                            "typeString": "struct Grouping.Participant memory"
+                          }
+                        },
+                        "id": 125,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "participantAddress",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 7,
+                        "src": "1905:30:0",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "nodeType": "IndexAccess",
+                      "src": "1890:46:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_storage",
+                        "typeString": "struct Grouping.Group storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 127,
+                      "name": "group",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 120,
+                      "src": "1939:5:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                        "typeString": "struct Grouping.Group memory"
+                      }
+                    },
+                    "src": "1890:54:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_storage",
+                      "typeString": "struct Grouping.Group storage ref"
+                    }
+                  },
+                  "id": 129,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1890:54:0"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 131,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addParticipantToGroup",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 121,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 118,
+                  "name": "participant",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 131,
+                  "src": "1820:30:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Participant_$8_memory_ptr",
+                    "typeString": "struct Grouping.Participant"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 117,
+                    "name": "Participant",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 8,
+                    "src": "1820:11:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Participant_$8_storage_ptr",
+                      "typeString": "struct Grouping.Participant"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 120,
+                  "name": "group",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 131,
+                  "src": "1852:18:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Group_$14_memory_ptr",
+                    "typeString": "struct Grouping.Group"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 119,
+                    "name": "Group",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 14,
+                    "src": "1852:5:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Group_$14_storage_ptr",
+                      "typeString": "struct Grouping.Group"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1819:52:0"
+            },
+            "returnParameters": {
+              "id": 122,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1880:0:0"
+            },
+            "scope": 132,
+            "src": "1789:162:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "private"
           }
         ],
-        "scope": 65,
-        "src": "34:849:0"
+        "scope": 133,
+        "src": "34:1919:0"
       }
     ],
-    "src": "0:884:0"
+    "src": "0:1954:0"
   },
   "compiler": {
     "name": "solc",
@@ -1715,12 +3417,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xd213dd8A6eD85186fd00cD96e916e18D99181B75",
-      "transactionHash": "0xef83b638bc3a36506eb29928d4a70e5d3fa6328e6547c503e591a9842ba1b576"
+      "address": "0xBD33e1a6Fd820a069300a4aE19f12265B9Ad5054",
+      "transactionHash": "0xac8b0786d3caf984b0bd40ccdddeab610e752b669fa94090c1934ef057cce806"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2020-01-22T09:15:13.259Z",
+  "updatedAt": "2020-01-22T09:48:53.004Z",
   "devdoc": {
     "methods": {}
   },
