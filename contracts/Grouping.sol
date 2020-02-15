@@ -64,6 +64,11 @@ contract Grouping {
         roundRobin(_groups);
     }
 
+    // Original Source from https://github.com/HarryR/solcrypto/blob/master/contracts/altbn128.sol
+    // Commit 396fe4642cf39e2577217651a64bc3d19362ce42 License: MIT
+    // From: https://gist.githubusercontent.com/chriseth/f9be9d9391efc5beb9704255a8e2989d/raw/4d0fb90847df1d4e04d507019031888df8372239/snarktest.solidity
+    // Basically just calls the precompiled EVM contract/function 0x05 which calculates (_base ** _expoonent) % _modulus efficiently
+    // Modified for Solitity ^0.5.0, original function name expMod()
     function bigMod(uint256 _base, uint256 _exponent, uint256 _modulus) internal view returns (uint256 returnValue) {
         bool success;
         uint256[1] memory output;
