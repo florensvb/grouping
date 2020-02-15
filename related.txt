@@ -1,0 +1,29 @@
+Coin Shuffle - https://allquantor.at/blockchainbib/pdf/ruffing2014coinshuffle.pdf
+  > On chain mixing
+  > Generate new addresses every round
+  > Shuffle addresses
+  > Make sure amount of input and output coins are equal
+
+CoinJoin - https://bitcointalk.org/index.php?topic=279249
+  > First post about the idea
+  > Joining means smaller transactions & fees, privacy is a perk
+  > Where does RANDOM come from??
+
+MixEth - https://drops.dagstuhl.de/opus/volltexte/2019/11403/pdf/OASIcs-Tokenomics-2019-13.pdf
+  > Similar to Coinshuffle
+  > Claims better performance
+
+Decentralizing Privacy: Using Blockchain to Protect Personal Data - http://homepage.divms.uiowa.edu/~ghosh/blockchain.pdf
+  > Fine-grained access control for user data in for example mobile applications
+  > Stores files in an off-chain DHT
+
+k-ANONYMITY: A MODEL FOR PROTECTING PRIVACY - https://www.win.tue.nl/~jhartog/CourseVerif/Papers/10.1.1.90.4099.pdf
+  > If there are k duplicate rows in a table then you have k-anonymity
+  > Queries always yield at least k individuals
+  > Attacks: Order of rows, linking rows to external data, temporal inference attack -> over time tracking of cruds
+    -> Could use same attack vectors thesis evaluation
+  > Also known as plausible deniability
+
+
+Secure Random Grouping for anonymous Blockchain based E-Voting.
+  > Where is the anonymity? Deployer can not know who voted what.

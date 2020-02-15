@@ -1,68 +1,87 @@
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity >=0.4.22 <0.7.0;
 
 contract Grouping {
-    // the owner of the contract
-    address public owner;
+    // Init
+    address owner;
+    mapping(address => bool) public registered;
+    mapping(uint256 => address) public voters;
+    mapping(uint256 => address) shuffled;
+    mapping(address => uint256) public groups;
+    uint256 public votersCount = 0;
 
-    // a participant
-    struct Participant {
-        string name;
-        address participantAddress;
-    }
-
-    // number of groups
-    uint private groupCount = 0;
-
-    // a group
-    struct Group {
-        uint groupNumber;
-    }
-
-    // list of groups
-    Group[] groups;
-
-    // list of participants
-    Participant[] participants;
-
-    // an address points to a participant
-    mapping (address => Participant) public addressToParticipant;
-    // an address points to a group
-    mapping (address => Group) public addressToGroup;
-
-    // saving the owner of the contract
     constructor() public {
         owner = msg.sender;
     }
 
-    // register new participants
-    function register(string memory _name) public {
-        // create a new participant
-        Participant memory participant = Participant(_name, msg.sender);
-        // push it to the array
-        participants.push(participant);
-        // save it in the mapping
-        addressToParticipant[msg.sender] = participant;
-        // create a new group
-        Group memory group = createGroup();
-        // add participant to new group
-        addParticipantToGroup(participant, group);
+    // Voter registration
+    function registerVoter() public {
+        require(!registered[msg.sender], "Voter already registered.");
+        require(votersCount < 2**256 - 1, "Overflow!");
+
+        registered[msg.sender] = true;
+        voters[votersCount++] = msg.sender;
     }
 
-    // return a participant
-    function getParticipant() public view returns (string memory name, address participantAddress) {
-        Participant memory participant = addressToParticipant[msg.sender];
-        return (participant.name, participant.participantAddress);
+    // Round Robin
+    function roundRobin(uint256 _groups) public {
+        assert(_groups <= votersCount);
+
+        for(uint256 i = 0; i < votersCount; i++) {
+            uint256 group = i % _groups;
+            address voter = voters[i];
+
+            groups[voter] = group;
+        }
     }
 
-    // create a new group
-    function createGroup() private returns (Group memory) {
-        Group memory group = Group(groupCount++);
-        groups.push(group);
-        return group;
+    // Random Shuffle
+    // Changes the order of voters mapping
+    function randomShuffle(uint256 _seed) private {
+
+        // Shuffle voters mapping
+        for(uint256 i = 0; i < votersCount; i++) {
+            uint256 newIndex;
+
+            do {
+                newIndex = bigMod(_seed, i, votersCount);
+            } while(shuffled[newIndex] != address(0));
+
+            shuffled[newIndex] = voters[i];
+        }
     }
 
-    // add participant to group
-    function addParticipantToGroup(Participant memory participant, Group memory group) private {
-        addressToGroup[participant.participantAddress] = group;
+    // Random Grouping
+    // _seed    = seed from owner
+    // _groups  = number of groups set by owner
+    function randomRoundRobin(uint256 _seed, uint256 _groups) public {
+        // only the owner can perform this action
+        require(msg.sender == owner);
+
+        // shuffle all the voters
+        randomShuffle(_seed);
+
+        // group the shuffled voters in round robin style
+        roundRobin(_groups);
+    }
+
+    function bigMod(uint256 _base, uint256 _exponent, uint256 _modulus) internal view returns (uint256 returnValue) {
+        bool success;
+        uint256[1] memory output;
+        uint[6] memory input;
+        input[0] = 0x20;        // baseLen = new(big.Int).SetBytes(getData(input, 0, 32))
+        input[1] = 0x20;        // expLen  = new(big.Int).SetBytes(getData(input, 32, 32))
+        input[2] = 0x20;        // modLen  = new(big.Int).SetBytes(getData(input, 64, 32))
+        input[3] = _base;
+        input[4] = _exponent;
+        input[5] = _modulus;
+        assembly {
+            success := staticcall(sub(gas, 2000), 5, input, 0xc0, output, 0x20)
+        // Use "revert" to make gas estimation work
+            switch success case 0 {
+                revert(0, 0)
+            }
+        }
+        require(success);
+        return output[0];
     }
 }
