@@ -3,14 +3,22 @@ pragma solidity >=0.4.22 <0.7.0;
 contract Grouping {
     // Init
     address owner;
+
     mapping(address => bool) public registered;
     mapping(uint256 => address) public voters;
-    mapping(uint256 => address) shuffled;
+    mapping(uint256 => address) public shuffled;
     mapping(address => uint256) public groups;
+
+    uint256 public votables;
     uint256 public votersCount = 0;
 
     constructor() public {
         owner = msg.sender;
+    }
+
+    function declareVotables(uint256 _votables) public {
+        require(msg.sender == owner);
+        votables = _votables;
     }
 
     // Voter registration
@@ -23,12 +31,12 @@ contract Grouping {
     }
 
     // Round Robin
-    function roundRobin(uint256 _groups) public {
+    function roundRobin(uint256 _groups) private {
         assert(_groups <= votersCount);
 
         for(uint256 i = 0; i < votersCount; i++) {
             uint256 group = i % _groups;
-            address voter = voters[i];
+            address voter = shuffled[i];
 
             groups[voter] = group;
         }
@@ -39,14 +47,17 @@ contract Grouping {
     function randomShuffle(uint256 _seed) private {
 
         // Shuffle voters mapping
-        for(uint256 i = 0; i < votersCount; i++) {
+        for(uint256 i = 1; i < votersCount + 1; i++) {
             uint256 newIndex;
 
             do {
                 newIndex = bigMod(_seed, i, votersCount);
+                if (shuffled[newIndex] != address(0)) {
+                    _seed++;
+                }
             } while(shuffled[newIndex] != address(0));
 
-            shuffled[newIndex] = voters[i];
+            shuffled[newIndex] = voters[i - 1];
         }
     }
 
@@ -61,7 +72,7 @@ contract Grouping {
         randomShuffle(_seed);
 
         // group the shuffled voters in round robin style
-        roundRobin(_groups);
+//        roundRobin(_groups);
     }
 
     // Original Source from https://github.com/HarryR/solcrypto/blob/master/contracts/altbn128.sol
@@ -69,7 +80,7 @@ contract Grouping {
     // From: https://gist.githubusercontent.com/chriseth/f9be9d9391efc5beb9704255a8e2989d/raw/4d0fb90847df1d4e04d507019031888df8372239/snarktest.solidity
     // Basically just calls the precompiled EVM contract/function 0x05 which calculates (_base ** _expoonent) % _modulus efficiently
     // Modified for Solitity ^0.5.0, original function name expMod()
-    function bigMod(uint256 _base, uint256 _exponent, uint256 _modulus) internal view returns (uint256 returnValue) {
+    function bigMod(uint256 _base, uint256 _exponent, uint256 _modulus) public view returns (uint256 returnValue) {
         bool success;
         uint256[1] memory output;
         uint[6] memory input;
