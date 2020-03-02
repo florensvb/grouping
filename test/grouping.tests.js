@@ -34,6 +34,14 @@ contract("Grouping", async accounts => {
     assert.equal(votersCount.toNumber(), votersCount, `Did not count ${expectedVotersCount} voters`);
   });
 
+  it('should be able to cast a vote', async() => {
+    await truffleCost.log(grouping.vote(1, { from: accounts[1] }));
+
+    const vote = await grouping.votes.call(accounts[1]);
+
+    assert.equal(vote, 1);
+  });
+
   it('should be able to use big mod function', async () => {
     const result = await grouping.bigMod(155155155155155, 149, 15, { from: owner });
     assert.equal(result.toNumber(), 10);

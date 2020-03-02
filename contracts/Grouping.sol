@@ -6,6 +6,7 @@ contract Grouping {
 
     mapping(address => bool) public registered;
     mapping(uint256 => address) public voters;
+    mapping(address => uint256) public votes;
     mapping(uint256 => address) public shuffled;
     mapping(address => uint256) public groups;
 
@@ -28,6 +29,13 @@ contract Grouping {
 
         registered[msg.sender] = true;
         voters[votersCount++] = msg.sender;
+    }
+
+    function vote(uint256 _vote) public {
+        require(registered[msg.sender], 'Voter not registered');
+        require(_vote > 0 && _vote < votables, 'Not a votable option');
+
+        votes[msg.sender] = _vote;
     }
 
     // Round Robin
