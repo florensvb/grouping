@@ -1,12 +1,15 @@
 const Grouping = artifacts.require("Grouping");
 
 const truffleCost = require('truffle-cost');
+const { utils: { keccak256 } } = require('web3');
 
 const expectedVotersCount = 12; // ganache allow max 100 accounts
 
 const _seed = 15;
 const _groups = 3;
 const _votables = 5;
+
+const commitValue = `3_supersecret`;
 
 contract("Grouping", async accounts => {
 
@@ -32,6 +35,42 @@ contract("Grouping", async accounts => {
     const votersCount = await grouping.votersCount.call({ from: accounts[0] });
 
     assert.equal(votersCount.toNumber(), votersCount, `Did not count ${expectedVotersCount} voters`);
+  });
+
+  it('should be able to start the commit phase', async () => {
+    await truffleCost.log(grouping.startCommitPhase());
+
+    const commitPhase = await grouping.commitPhase.call();
+
+    assert.equal(commitPhase, true);
+  });
+
+  it('should be able to commit', async () => {
+    const hash = keccak256(commitValue);
+
+    await truffleCost.log(grouping.commit(hash, { from: accounts[1] }));
+
+    const commit = await grouping.commits.call(accounts[1]);
+
+    assert.equal(commit, hash);
+  });
+
+  it('should be able to start the reveal phase', async () => {
+    await truffleCost.log(grouping.startRevealPhase());
+
+    const revealPhase = await grouping.revealPhase.call();
+    const commitPhase = await grouping.commitPhase.call();
+
+    assert.equal(revealPhase, true);
+    assert.equal(commitPhase, false);
+  });
+
+  it ('should be able to reveal a vote', async () => {
+    await truffleCost.log(grouping.reveal(commitValue, { from: accounts[1] }));
+
+    const reveal = await grouping.reveals.call(accounts[1]);
+
+    assert.equal(reveal, commitValue);
   });
 
   it('should be able to cast a vote', async() => {

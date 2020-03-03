@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "truffle-cost": "^1.0.1"
+    "truffle-cost": "^1.0.1",
+    "web3": "^1.2.6"
   }
 }

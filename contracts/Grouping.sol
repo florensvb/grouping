@@ -9,9 +9,13 @@ contract Grouping {
     mapping(address => uint256) public votes;
     mapping(uint256 => address) public shuffled;
     mapping(address => uint256) public groups;
+    mapping(address => bytes32) public commits;
+    mapping(address => string) public reveals;
 
     uint256 public votables;
     uint256 public votersCount = 0;
+    bool public commitPhase = false;
+    bool public revealPhase = false;
 
     constructor() public {
         owner = msg.sender;
@@ -31,11 +35,44 @@ contract Grouping {
         voters[votersCount++] = msg.sender;
     }
 
+    function startCommitPhase() public {
+        require(msg.sender == owner, 'Only the owner can start the commit phase');
+        require(revealPhase == false, 'Reveal phase has already begun. Too late!');
+
+        commitPhase = true;
+    }
+
+    function startRevealPhase() public {
+        require(msg.sender == owner, 'Only the owner can start the reveal phase');
+        require(commitPhase == true, 'Reveal phase can not start before commit phase');
+
+        commitPhase = false;
+        revealPhase = true;
+    }
+
     function vote(uint256 _vote) public {
         require(registered[msg.sender], 'Voter not registered');
         require(_vote > 0 && _vote < votables, 'Not a votable option');
 
         votes[msg.sender] = _vote;
+    }
+
+    function commit(bytes32 _hash) public {
+        require(registered[msg.sender], 'Voter not registered');
+        require(commitPhase == true, 'Commit phase has not started yet');
+
+        commits[msg.sender] = _hash;
+    }
+
+    function reveal(string memory _secret) public {
+        require(registered[msg.sender], 'Voter not registered');
+        require(revealPhase == true, 'Reveal phase has not started yet');
+
+        bytes32 hash = keccak256(bytes(_secret));
+
+        require(hash == commits[msg.sender], 'reveal does not match commit');
+
+        reveals[msg.sender] = _secret;
     }
 
     // Round Robin
