@@ -76,7 +76,14 @@ contract ShuffleAndRoundRobin {
     function shuffle(uint256 _seed) private {
         assert(msg.sender == owner);
 
+        // prevBlockHash
         uint256 prevBlockHash = uint256(blockhash(block.number - 1));
+
+        uint256 allReveals;
+        // reveals
+        for(uint256 i = 0; i < registered.length; i++) {
+            allReveals += uint256(keccak256(abi.encodePacked(reveals[msg.sender])));
+        }
 
         uint256 prevRand = 1;
 
@@ -91,7 +98,7 @@ contract ShuffleAndRoundRobin {
                 rand = (25214903917 * prevRand + 11) % (2 ** 48);
                 prevRand = rand;
 
-                randPosition = (prevBlockHash + _seed + rand) % registered.length;
+                randPosition = (prevBlockHash + _seed + allReveals + rand) % registered.length;
 
                 emit randomNr(randPosition, !isShuffled[registered[randPosition]]);
             } while(isShuffled[registered[randPosition]]);
