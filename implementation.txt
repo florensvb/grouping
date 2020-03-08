@@ -12,7 +12,7 @@ Randomly:
       > Timestamp -> Miners
       > Seed from deployer -> Influenced by deployer
       > Oracle -> Centralized, WolframAlpha, Provable
-      > RANDAO? -> Doesn't seem to be plug-and-play -> nothing else than commit/reveal -> password hash
+      > RANDAO? -> nothing else than commit/reveal -> password hash
 
 Intersecting:
   > Assign to groups randomly and each participant in at least 2 groups

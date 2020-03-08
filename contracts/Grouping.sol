@@ -109,7 +109,7 @@ contract Grouping {
     // Random Grouping
     // _seed    = seed from owner
     // _groups  = number of groups set by owner
-    function randomRoundRobin(uint256 _seed, uint256 _groups) public {
+    function randomRoundRobin(uint256 _seed) public {
         // only the owner can perform this action
         require(msg.sender == owner);
 
