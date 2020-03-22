@@ -24,3 +24,6 @@ packages/truffle-contract/dist
 .env
 .idea
 researchain/researchain-back/build/contracts
+
+.node-*
+bridge.log

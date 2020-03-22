@@ -1,6 +1,14 @@
 pragma solidity >=0.5.0 <0.7.0;
 
-contract ShuffleAndRoundRobin {
+import "./provableAPI.sol";
+
+contract ShuffleAndRoundRobin is usingProvable {
+
+    uint public randomNumber;
+
+    event LogNewRandomNumber(string randomNumber);
+    event LogNewProvableQuery(string description);
+
     // 0. Contract state
     enum State { Register, Commit, Reveal, Vote }
     State public state = State.Register;
@@ -26,6 +34,24 @@ contract ShuffleAndRoundRobin {
     // debugging event
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
     event distributed(address indexed _address, uint256 indexed _group);
+
+    constructor() public {
+        OAR = OracleAddrResolverI(0x2733A4cDa5dAC99B077452C2d04Fb4cAa0130E78);
+        update(); // First check at contract creation...
+    }
+
+    function __callback(bytes32 myid, string memory result) public
+    {
+        require(msg.sender == provable_cbAddress());
+        emit LogNewRandomNumber(result);
+        randomNumber = parseInt(result);
+    }
+
+    function update() public payable
+    {
+        emit LogNewProvableQuery("Provable query was sent, standing by for the answer...");
+        provable_query("URL", "https://www.random.org/integers/?num=1&min=1&max=1000000000&col=1&base=10&format=plain&rnd=new");
+    }
 
     // ======= 1. =======
     function register() public {
