@@ -4,10 +4,8 @@ import "./provableAPI.sol";
 
 contract ShuffleAndRoundRobin is usingProvable {
 
+    // provableAPI
     uint public randomNumber;
-
-    event LogNewRandomNumber(string randomNumber);
-    event LogNewProvableQuery(string description);
 
     // 0. Contract state
     enum State { Register, Commit, Reveal, Vote }
@@ -31,9 +29,11 @@ contract ShuffleAndRoundRobin is usingProvable {
     // only the contract owner can start distribution and selfdestruct the contract
     address payable owner = msg.sender;
 
-    // debugging event
+    // debugging events
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
     event distributed(address indexed _address, uint256 indexed _group);
+    event LogNewRandomNumber(string randomNumber);
+    event LogNewProvableQuery(string description);
 
     constructor() public {
         OAR = OracleAddrResolverI(0x2733A4cDa5dAC99B077452C2d04Fb4cAa0130E78);
@@ -145,11 +145,17 @@ contract ShuffleAndRoundRobin is usingProvable {
                 rand = (25214903917 * prevRand + 11) % (2 ** 48);
                 prevRand = rand;
 
-                // add up all sources of randomness
+                // last block hash
                 randPosition = rand + prevBlockHash;
+                // seed from owner
                 randPosition += _seed;
+                // reveals from voters
                 randPosition += allReveals;
+                // timestamp of current block
                 randPosition += now;
+                // random number from provable
+                randPosition += randomNumber;
+
                 // find a position in the mapping
                 randPosition = randPosition % registered.length;
 
