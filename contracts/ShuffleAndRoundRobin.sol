@@ -1,6 +1,10 @@
 pragma solidity >=0.5.0 <0.7.0;
 
 contract ShuffleAndRoundRobin {
+    // 0. Contract state
+    enum State { Register, Commit, Reveal, Vote }
+    State public state = State.Register;
+
     // 1. Register all accounts
     address[] public registered;
     mapping(address => bool) public isRegistered; // only allow registration once
@@ -9,16 +13,12 @@ contract ShuffleAndRoundRobin {
     mapping(address => bytes32) public commits;
     mapping(address => string) public reveals;
 
-    // 3. shuffle the accounts
-    address[] public shuffled;
-    mapping(address => bool) isShuffled;
-
-    // 4. distribute accounts in round robin
+    // 3. distribute accounts in round robin
     mapping(address => uint256) public groups;
 
-    // contract state
-    enum State { Register, Commit, Reveal, Vote }
-    State public state = State.Register;
+    // 4. shuffle the accounts
+    address[] public shuffled;
+    mapping(address => bool) isShuffled;
 
     // only the contract owner can start distribution and selfdestruct the contract
     address payable owner = msg.sender;
@@ -73,6 +73,27 @@ contract ShuffleAndRoundRobin {
     }
 
     // ======= 3. =======
+    function distribute(uint256[] memory _seed, uint256 _groups) public {
+        require(msg.sender == owner);
+        require(state == State.Reveal, 'Must be in reveal phase');
+        require(_groups > 1, 'There must be more than 1 group');
+        require(_seed.length > 0 && _seed[0] > 0, 'The seed is not good enough');
+        require(registered.length > 0, 'There are no registered voters');
+
+        shuffle(uint256(keccak256(abi.encodePacked(_seed))));
+        roundRobin(_groups);
+
+        state = State.Vote;
+
+        for(uint256 i = 0; i < registered.length; i++) {
+            address addr = registered[i];
+            uint256 group = groups[addr];
+
+            emit distributed(addr, group);
+        }
+    }
+
+    // ======= 4. =======
     function shuffle(uint256 _seed) private {
         assert(msg.sender == owner);
 
@@ -98,7 +119,13 @@ contract ShuffleAndRoundRobin {
                 rand = (25214903917 * prevRand + 11) % (2 ** 48);
                 prevRand = rand;
 
-                randPosition = (prevBlockHash + _seed + allReveals + rand) % registered.length;
+                // add up all sources of randomness
+                randPosition = rand + prevBlockHash;
+                randPosition += _seed;
+                randPosition += allReveals;
+                randPosition += now;
+                // find a position in the mapping
+                randPosition = randPosition % registered.length;
 
                 emit randomNr(randPosition, !isShuffled[registered[randPosition]]);
             } while(isShuffled[registered[randPosition]]);
@@ -114,27 +141,6 @@ contract ShuffleAndRoundRobin {
 
         for(uint256 i = 0; i < shuffled.length; i++) {
             groups[registered[i]] = i % _groups;
-        }
-    }
-
-    // ======= 4. =======
-    function distribute(uint256[] memory _seed, uint256 _groups) public {
-        require(msg.sender == owner);
-        require(state == State.Reveal, 'Must be in reveal phase');
-        require(_groups > 0);
-        require(_seed.length > 0 && _seed[0] > 0);
-        require(registered.length > 0);
-
-        shuffle(uint256(keccak256(abi.encodePacked(_seed))));
-        roundRobin(_groups);
-
-        state = State.Vote;
-
-        for(uint256 i = 0; i < registered.length; i++) {
-            address addr = registered[i];
-            uint256 group = groups[addr];
-
-            emit distributed(addr, group);
         }
     }
 
