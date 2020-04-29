@@ -38,6 +38,7 @@
   - Evaluation / Analysis
     > Anonymity and k-anonymity
     > Security and attack vectors
+    > Random.org TRNG vs PRNG
     > Performance & Scalability (it works) -> optimizer in EVM, deployment vs transactions
 
   - Conclusion

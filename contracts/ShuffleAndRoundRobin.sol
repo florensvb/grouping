@@ -36,7 +36,7 @@ contract ShuffleAndRoundRobin is usingProvable {
     event LogNewProvableQuery(string description);
 
     constructor() public {
-        OAR = OracleAddrResolverI(0x2733A4cDa5dAC99B077452C2d04Fb4cAa0130E78);
+        OAR = OracleAddrResolverI(0xF1C170453A36fCdF8c816Ce4b1d4668E78445Ea5);
         update(); // First check at contract creation...
     }
 
@@ -142,7 +142,7 @@ contract ShuffleAndRoundRobin is usingProvable {
             do {
                 // values from Java's java.util.Random, POSIX [ln]rand48, glibc [ln]rand48[_r],
                 // see https://en.wikipedia.org/wiki/Linear_congruential_generator#Parameters_in_common_use
-                rand = (25214903917 * prevRand + 11) % (2 ** 48);
+                rand = (prevRand * 25214903917 + 11) % (2 ** 48);
                 prevRand = rand;
 
                 // last block hash
