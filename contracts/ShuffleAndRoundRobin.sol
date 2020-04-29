@@ -48,6 +48,7 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     function getProvableRandomNumber() public payable
     {
+        require(msg.sender == owner, 'Only the owner can get a random number from provable');
         emit LogNewProvableQuery("Provable query was sent, standing by for the answer...");
         provable_query("URL", "https://www.random.org/integers/?num=1&min=1&max=1000000000&col=1&base=10&format=plain&rnd=new");
     }
