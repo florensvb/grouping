@@ -1,5 +1,7 @@
 const ShuffleAndDistribute = artifacts.require('ShuffleAndRoundRobin');
 
+const { waitForEvent } = require('./utils');
+
 const truffleCost = require('truffle-cost');
 const { utils: { keccak256 } } = require('web3');
 
@@ -73,6 +75,28 @@ contract('ShuffleAndDistributeInGroups', accounts => {
 
       assert.equal(reveal, reveals[address]);
     }
+  });
+
+  it (`should be able to get a random number from provable`, async () => {
+    await truffleCost.log(instance.getProvableRandomNumber({ from : owner }));
+
+    const { contract } = await ShuffleAndDistribute.deployed(),
+      { events } = new web3.eth.Contract(
+        contract._jsonInterface,
+        contract._address
+      );
+
+    const {
+      returnValues: {
+        randomNumber
+      }
+    } = await waitForEvent(events.LogNewRandomNumber);
+
+    assert.isAbove(
+      parseInt(randomNumber),
+      0,
+      'A random number should have been retrieved from Provable call!'
+    );
   });
 
   it(`should ShuffleAndDistribute these ${votersCount} accounts in ${groups} groups`, async () => {

@@ -23,6 +23,13 @@ contract('provableAPI: Get random number', accounts => {
   ))
 
   it('Should have logged a new Provable query', async () => {
+    await methods
+      .getProvableRandomNumber()
+      .send({
+        from: address,
+        gas: gasAmt
+      })
+
     const {
       returnValues: {
         description
@@ -51,7 +58,7 @@ contract('provableAPI: Get random number', accounts => {
 
   it('Should set random number correctly in contract', async () => {
     const queriedRandomNumber = await methods
-      .randomNumber()
+      .provableRandomNumber()
       .call()
     assert.strictEqual(
       parseInt(contractRandomNumber),
@@ -64,7 +71,7 @@ contract('provableAPI: Get random number', accounts => {
     const expErr = 'revert'
     try {
       await methods
-        .update()
+        .getProvableRandomNumber()
         .send({
           from: address,
           gas: gasAmt
