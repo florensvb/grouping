@@ -12,6 +12,9 @@ let owner, instance;
 const commits = {};
 const reveals = {};
 
+const seedCommit = [...Array(32)].map(() => parseInt(Math.random() * 256)).toString();
+const seedHash = keccak256(seedCommit);
+
 contract('ShuffleAndDistributeInGroups', accounts => {
 
   it(`needs at least ${votersCount + 1} accounts in Ganache`, async () => {
@@ -33,11 +36,17 @@ contract('ShuffleAndDistributeInGroups', accounts => {
   });
 
   it('should be able to start the commit phase', async () => {
-    await truffleCost.log(instance.startCommitPhase());
+    await truffleCost.log(instance.startCommitPhase(seedHash));
 
     const state = await instance.state.call();
 
     assert.equal(state.toNumber(), 1);
+  });
+
+  it('should have a hashed seed stored in contract', async () => {
+    const _seedHash = await instance.seedCommit.call();
+
+    assert.equal(_seedHash, seedHash);
   });
 
   it(`should be able to commit for all ${votersCount} voters`, async () => {
@@ -58,11 +67,17 @@ contract('ShuffleAndDistributeInGroups', accounts => {
   });
 
   it('should be able to start the reveal phase', async () => {
-    await truffleCost.log(instance.startRevealPhase());
+    await truffleCost.log(instance.startRevealPhase(seedCommit));
 
     const state = await instance.state.call();
 
     assert.equal(state.toNumber(), 2);
+  });
+
+  it('should have a revealed seed stored in contract', async () => {
+    const seed = await instance.seedReveal.call();
+
+    assert.equal(seed.toString(), seedCommit);
   });
 
   it (`should be able to reveal all ${votersCount} votes`, async () => {
@@ -100,9 +115,7 @@ contract('ShuffleAndDistributeInGroups', accounts => {
   });
 
   it(`should ShuffleAndDistribute these ${votersCount} accounts in ${groups} groups`, async () => {
-    const WEAK_SECRET_SEED = [...Array(32)].map(() => parseInt(Math.random() * 256));
-
-    await truffleCost.log(instance.distribute(WEAK_SECRET_SEED, groups, { from: owner }));
+    await truffleCost.log(instance.distribute(groups, { from: owner }));
 
     let differentPosition = 0;
 

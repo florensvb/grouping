@@ -19,6 +19,10 @@ contract ShuffleAndRoundRobin is usingProvable {
     mapping(address => bytes32) public commits;
     mapping(address => string) public reveals;
 
+    // seed from owner
+    bytes32 public seedCommit;
+    string public seedReveal;
+
     // 3. distribute accounts in round robin
     mapping(address => uint256) public groups;
 
@@ -63,19 +67,28 @@ contract ShuffleAndRoundRobin is usingProvable {
     }
 
     // ======= 2.1 =======
-    function startCommitPhase() public {
-        require(msg.sender == owner, 'Only the owner can start the commit phase');
+    function startCommitPhase(bytes32 _seedCommit) public {
         require(state == State.Register, 'Must be in registration phase');
+        require(msg.sender == owner, 'Only the owner can start the commit phase');
+        require(_seedCommit.length > 0, 'The seed is not good enough');
 
         state = State.Commit;
+
+        seedCommit = _seedCommit;
     }
 
     // ======= 2.2 =======
-    function startRevealPhase() public {
-        require(msg.sender == owner, 'Only the owner can start the reveal phase');
+    function startRevealPhase(string memory _seedReveal) public {
         require(state == State.Commit, 'Must be in commit phase');
+        require(msg.sender == owner, 'Only the owner can start the reveal phase');
 
         state = State.Reveal;
+
+        bytes32 hash = keccak256(bytes(_seedReveal));
+
+        require(hash == seedCommit, 'Seed from owner does not match the commit');
+
+        seedReveal = _seedReveal;
     }
 
     // ======= 2.3 =======
@@ -99,15 +112,15 @@ contract ShuffleAndRoundRobin is usingProvable {
     }
 
     // ======= 3. =======
-    function distribute(uint256[] memory _seed, uint256 _groups) public {
+    function distribute(uint256 _groups) public {
         require(msg.sender == owner);
         require(provableRandomNumber > 0, 'Random number from provable must exist');
         require(state == State.Reveal, 'Must be in reveal phase');
         require(_groups > 1, 'There must be more than 1 group');
-        require(_seed.length > 0 && _seed[0] > 0, 'The seed is not good enough');
+        require(bytes(seedReveal).length > 0, 'No seed from owner found');
         require(registered.length > 0, 'There are no registered voters');
 
-        shuffle(uint256(keccak256(abi.encodePacked(_seed))));
+        shuffle(uint256(keccak256(abi.encodePacked(seedReveal))));
         roundRobin(_groups);
 
         state = State.Vote;

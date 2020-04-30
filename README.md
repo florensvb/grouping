@@ -26,6 +26,7 @@ You need to have the `ethereum-bridge` running to communicate with the provable 
 ```
 npx ethereum-bridge -a 9 -H 127.0.0.1 -p 7545 --dev
 ```
+Add `--oar 0xB16e6dd36Dfxxxxxxxxxx54b74E41ac6f42b5E` if you ran the command above before and want to use the same address as stated below:
 
 The bridge will print out the address of the oracle contract.
 
