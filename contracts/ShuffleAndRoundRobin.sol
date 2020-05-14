@@ -1,6 +1,7 @@
 pragma solidity >=0.5.0 <0.7.0;
 
 import "./provableAPI.sol";
+import "./SmartDiffieHellman.sol";
 
 contract ShuffleAndRoundRobin is usingProvable {
 
@@ -25,6 +26,7 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     // 3. distribute accounts in round robin
     mapping(address => uint256) public groups;
+    uint256 public numberOfGroups;
 
     // 4. shuffle the accounts
     address[] public shuffled;
@@ -135,7 +137,7 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     // ======= 4. =======
     function shuffle(uint256 _seed) private {
-        assert(msg.sender == owner);
+        require(msg.sender == owner);
 
         // prevBlockHash
         uint256 prevBlockHash = uint256(blockhash(block.number - 1));
@@ -183,10 +185,28 @@ contract ShuffleAndRoundRobin is usingProvable {
     }
 
     function roundRobin(uint256 _groups) private {
-        assert(msg.sender == owner);
+        require(msg.sender == owner);
 
         for(uint256 i = 0; i < shuffled.length; i++) {
             groups[registered[i]] = i % _groups;
+        }
+
+        numberOfGroups = _groups;
+    }
+
+    // ========== smartDHX ===========
+    SmartDiffieHellman[] public smartDHXs;
+
+    function deploySmartDHXs() public {
+        require(msg.sender == owner);
+
+        uint256 groupSize = registered.length / numberOfGroups;
+        uint256 smartDHXCountPerGroup = (groupSize / 2) * (groupSize - 1);
+        uint256 smartDHXCountTotal = 2;
+
+        for (uint256 i = 0; i < smartDHXCountTotal; i++) {
+            SmartDiffieHellman smartDHX = new SmartDiffieHellman();
+            smartDHXs.push(smartDHX);
         }
     }
 
