@@ -47,6 +47,7 @@ module.exports = {
      port: 7545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
      websockets: true,
+     // gas: 9721975,           // Gas sent with each transaction (default: ~6700000)
     },
 
     // Another network with more advanced options...

@@ -171,20 +171,20 @@ contract('ShuffleAndDistributeInGroups', accounts => {
   // number of edges in complete graph: (n/2)(n-1)
   const groupSize = votersCount / groups;
   const smartDHXCountPerGroup = (groupSize / 2) * (groupSize - 1);
-  const smartDHXCountTotal = 2;
+  const smartDHXCountTotal = smartDHXCountPerGroup * groupSize;
   it(`should deploy ${smartDHXCountTotal} smart-dhx contracts`, async () => {
-    await truffleCost.log(instance.deploySmartDHXs({ from: owner }));
+    let smartDHXCount = 0;
 
-    for (let i = 0; i < smartDHXCountTotal; i++) {
-      const smartDHXi = await instance.smartDHXs.call(i);
+    while (smartDHXCount < smartDHXCountTotal) {
+      await truffleCost.log(instance.deploySmartDHX());
 
-      assert.ok(smartDHXi, `Contract ${i} has not been deployed`);
+      const smartDHX = await instance.smartDHXs.call(smartDHXCount);
+      assert.ok(smartDHX, `Contract ${smartDHXCount} has not been deployed`);
 
-      for(let j = i + 1; j < smartDHXCountTotal.length; j++) {
-        const smartDHXj = await instance.smartDHXs.call(i);
-        assert.notEqual(smartDHXi, smartDHXj, `Contract ${i} and contract ${j} should be different`);
-      }
+      smartDHXCount++;
     }
+
+    assert.equal(smartDHXCount, smartDHXCountTotal);
   });
 
   // it('should exchange one and the same key between all pairs of clients', async () => {

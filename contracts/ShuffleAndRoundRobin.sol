@@ -197,17 +197,21 @@ contract ShuffleAndRoundRobin is usingProvable {
     // ========== smartDHX ===========
     SmartDiffieHellman[] public smartDHXs;
 
-    function deploySmartDHXs() public {
-        require(msg.sender == owner);
-
+    function numberOfNeededSmartDHXs() private returns (uint256 _count) {
         uint256 groupSize = registered.length / numberOfGroups;
         uint256 smartDHXCountPerGroup = (groupSize / 2) * (groupSize - 1);
-        uint256 smartDHXCountTotal = 2;
+        _count = smartDHXCountPerGroup * groupSize;
+    }
 
-        for (uint256 i = 0; i < smartDHXCountTotal; i++) {
-            SmartDiffieHellman smartDHX = new SmartDiffieHellman();
-            smartDHXs.push(smartDHX);
-        }
+    function deploySmartDHX() public {
+        require(msg.sender == owner);
+
+        uint256 smartDHXCountTotal = numberOfNeededSmartDHXs();
+
+        require(smartDHXs.length < smartDHXCountTotal, 'All smartDHXs have been deployed already.');
+
+        SmartDiffieHellman smartDHX = new SmartDiffieHellman();
+        smartDHXs.push(smartDHX);
     }
 
     function stop() public {
