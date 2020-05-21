@@ -192,12 +192,13 @@ contract ShuffleAndRoundRobin is usingProvable {
         }
 
         numberOfGroups = _groups;
+        state = State.Vote;
     }
 
     // ========== smartDHX ===========
     SmartDiffieHellman[] public smartDHXs;
 
-    function numberOfNeededSmartDHXs() private returns (uint256 _count) {
+    function numberOfNeededSmartDHXs() private view returns (uint256 _count) {
         uint256 groupSize = registered.length / numberOfGroups;
         uint256 smartDHXCountPerGroup = (groupSize / 2) * (groupSize - 1);
         _count = smartDHXCountPerGroup * groupSize;
@@ -205,6 +206,7 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     function deploySmartDHX() public {
         require(msg.sender == owner);
+        require(state == State.Vote);
 
         uint256 smartDHXCountTotal = numberOfNeededSmartDHXs();
 

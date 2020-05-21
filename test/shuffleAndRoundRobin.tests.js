@@ -187,28 +187,32 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     assert.equal(smartDHXCount, smartDHXCountTotal);
   });
 
-  // it('should exchange one and the same key between all pairs of clients', async () => {
-  //   const contract1 = smartDHXs[0];
-  //   const contract2 = smartDHXs[1];
-  //
-  //   const seed1 = [...Array(32)].map(() => parseInt(Math.random() * 256));
-  //   const seed2 = [...Array(32)].map(() => parseInt(Math.random() * 256));
-  //
-  //   let aA = await contract1.generateA.call(seed1);
-  //   await contract1.transmitA(contract2.address, aA["_A"]);
-  //
-  //   assert.ok(aA["_a"], "Missing 'a' in contract 1");
-  //   assert.ok(aA["_A"], "Missing 'A' in contract 1");
-  //
-  //   let bB = await contract2.generateA.call(seed2);
-  //   await contract2.transmitA(contract1.address, bB["_A"]);
-  //
-  //   assert.ok(bB["_a"], "Missing 'b' in contract 2");
-  //   assert.ok(bB["_A"], "Missing 'B' in contract 2");
-  //
-  //   let AB1 = await contract1.generateAB.call(aA["_a"]);
-  //   let AB2 = await contract2.generateAB.call(bB["_a"]);
-  //
-  //   assert.equal(AB1.toString(), AB2.toString(), "Exchanged keys keys are not the same");
-  // });
+  it('should exchange one and the same key between all pairs of clients', async () => {
+    const smartDHXaddress1 = await instance.smartDHXs.call(0);
+    const smartDHXaddress2 = await instance.smartDHXs.call(1);
+
+    const abi = require('./../build/contracts/SmartDiffieHellman').abi;
+    const smartDHX1 = new web3.eth.Contract(abi, smartDHXaddress1, { from: accounts[1] });
+    const smartDHX2 = new web3.eth.Contract(abi, smartDHXaddress2, { from: accounts[2] });
+
+    const seed1 = [...Array(32)].map(() => parseInt(Math.random() * 256));
+    const seed2 = [...Array(32)].map(() => parseInt(Math.random() * 256));
+
+    let aA = await smartDHX1.methods.generateA(seed1).call();
+    await smartDHX1.methods.transmitA(smartDHXaddress2, aA["_A"]).send();
+
+    assert.ok(aA["_a"], "Missing 'a' in contract 1");
+    assert.ok(aA["_A"], "Missing 'A' in contract 1");
+
+    let bB = await smartDHX2.methods.generateA(seed2).call();
+    await smartDHX2.methods.transmitA(smartDHXaddress1, bB["_A"]).send();
+
+    assert.ok(bB["_a"], "Missing 'b' in contract 2");
+    assert.ok(bB["_A"], "Missing 'B' in contract 2");
+
+    let AB1 = await smartDHX1.methods.generateAB(aA["_a"]).call();
+    let AB2 = await smartDHX2.methods.generateAB(bB["_a"]).call();
+
+    assert.equal(AB1.toString(), AB2.toString(), "Exchanged keys keys are not the same");
+  });
 });
