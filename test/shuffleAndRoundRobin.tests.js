@@ -168,51 +168,81 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     }
   });
 
-  // number of edges in complete graph: (n/2)(n-1)
+  // number of edges in complete graph: n * (n - 1)
   const groupSize = votersCount / groups;
-  const smartDHXCountPerGroup = (groupSize / 2) * (groupSize - 1);
-  const smartDHXCountTotal = smartDHXCountPerGroup * groupSize;
-  it(`should deploy ${smartDHXCountTotal} smart-dhx contracts`, async () => {
-    let smartDHXCount = 0;
+  const smartDHXCountPerGroup = groupSize * (groupSize - 1);
+  const smartDHXCountTotal = smartDHXCountPerGroup * groups;
 
-    while (smartDHXCount < smartDHXCountTotal) {
-      await truffleCost.log(instance.deploySmartDHX());
+  const edgeKeys = [];
 
-      const smartDHX = await instance.smartDHXs.call(smartDHXCount);
-      assert.ok(smartDHX, `Contract ${smartDHXCount} has not been deployed`);
+  it(`should deploy ${smartDHXCountTotal} smartDHX contracts`, async () => {
+    const votersInGroups = {};
 
-      smartDHXCount++;
+    for (let i = 1; i <= votersCount; i++) {
+      const group = await instance.groups(accounts[i]);
+      votersInGroups[group] ? votersInGroups[group].push(accounts[i]) : votersInGroups[group] = [accounts[i]];
     }
 
-    assert.equal(smartDHXCount, smartDHXCountTotal);
+    let smartDHXCount = 0;
+
+    for (const key of Object.keys(votersInGroups)) {
+      const votersInGroup = votersInGroups[key];
+
+      for (let i = 0; i < votersInGroup.length -1; i++) {
+        for (let j = i + 1; j < votersInGroup.length; j++) {
+          await truffleCost.log(instance.deploySmartDHX(votersInGroup[i], votersInGroup[j]));
+
+          const firstEdgeKey = await instance.getEdgeKey(votersInGroup[i], votersInGroup[j]);
+          const secondEdgeKey = await instance.getEdgeKey(votersInGroup[j], votersInGroup[i]);
+
+          const firstSmartDHX = await instance.smartDHXs(firstEdgeKey);
+          const secondSmartDHX = await instance.smartDHXs(secondEdgeKey);
+
+          assert.ok(firstSmartDHX, `SmartDHX between ${votersInGroups[i]} and ${votersInGroups[j]} has not been deployed`);
+          assert.ok(secondSmartDHX, `SmartDHX between ${votersInGroups[j]} and ${votersInGroups[i]} has not been deployed`);
+
+          edgeKeys.push(firstEdgeKey);
+          edgeKeys.push(secondEdgeKey);
+
+          smartDHXCount += 2;
+        }
+      }
+    }
+
+    assert.equal(smartDHXCount, smartDHXCountTotal, `Not all ${smartDHXCountTotal} smartDHXs have been deployed`);
   });
 
-  it('should exchange one and the same key between all pairs of clients', async () => {
-    const smartDHXaddress1 = await instance.smartDHXs.call(0);
-    const smartDHXaddress2 = await instance.smartDHXs.call(1);
-
-    const abi = require('./../build/contracts/SmartDiffieHellman').abi;
-    const smartDHX1 = new web3.eth.Contract(abi, smartDHXaddress1, { from: accounts[1] });
-    const smartDHX2 = new web3.eth.Contract(abi, smartDHXaddress2, { from: accounts[2] });
-
-    const seed1 = [...Array(32)].map(() => parseInt(Math.random() * 256));
-    const seed2 = [...Array(32)].map(() => parseInt(Math.random() * 256));
-
-    let aA = await smartDHX1.methods.generateA(seed1).call();
-    await smartDHX1.methods.transmitA(smartDHXaddress2, aA["_A"]).send();
-
-    assert.ok(aA["_a"], "Missing 'a' in contract 1");
-    assert.ok(aA["_A"], "Missing 'A' in contract 1");
-
-    let bB = await smartDHX2.methods.generateA(seed2).call();
-    await smartDHX2.methods.transmitA(smartDHXaddress1, bB["_A"]).send();
-
-    assert.ok(bB["_a"], "Missing 'b' in contract 2");
-    assert.ok(bB["_A"], "Missing 'B' in contract 2");
-
-    let AB1 = await smartDHX1.methods.generateAB(aA["_a"]).call();
-    let AB2 = await smartDHX2.methods.generateAB(bB["_a"]).call();
-
-    assert.equal(AB1.toString(), AB2.toString(), "Exchanged keys keys are not the same");
-  });
+  // it('should exchange one and the same key between all pairs of clients', async () => {
+  //   const abi = require('./../build/contracts/SmartDiffieHellman').abi;
+  //
+  //   for (const edgeKey of edgeKeys) {
+  //     const smartDHXs = await instance.smartDHXs(edgeKey);
+  //
+  //     const firstSmartDHXaddress = smartDHXs[0];
+  //     const secondSmartDHXaddress = smartDHXs[1];
+  //
+  //     const firstSmartDHX = new web3.eth.Contract(abi, firstSmartDHXaddress, {from: accounts[1]});
+  //     const secondSmartDHX = new web3.eth.Contract(abi, secondSmartDHXaddress, {from: accounts[2]});
+  //
+  //     const seed1 = [...Array(32)].map(() => parseInt(Math.random() * 256));
+  //     const seed2 = [...Array(32)].map(() => parseInt(Math.random() * 256));
+  //
+  //     let aA = await firstSmartDHX.methods.generateA(seed1).call();
+  //     await firstSmartDHX.methods.transmitA(secondSmartDHXaddress, aA["_A"]).send();
+  //
+  //     assert.ok(aA["_a"], "Missing 'a' in contract 1");
+  //     assert.ok(aA["_A"], "Missing 'A' in contract 1");
+  //
+  //     let bB = await secondSmartDHX.methods.generateA(seed2).call();
+  //     await secondSmartDHX.methods.transmitA(firstSmartDHXaddress, bB["_A"]).send();
+  //
+  //     assert.ok(bB["_a"], "Missing 'b' in contract 2");
+  //     assert.ok(bB["_A"], "Missing 'B' in contract 2");
+  //
+  //     let AB1 = await firstSmartDHX.methods.generateAB(aA["_a"]).call();
+  //     let AB2 = await secondSmartDHX.methods.generateAB(bB["_a"]).call();
+  //
+  //     assert.equal(AB1.toString(), AB2.toString(), "Exchanged keys keys are not the same");
+  //   }
+  // });
 });

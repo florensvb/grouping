@@ -196,24 +196,33 @@ contract ShuffleAndRoundRobin is usingProvable {
     }
 
     // ========== smartDHX ===========
-    SmartDiffieHellman[] public smartDHXs;
+    mapping(bytes32 => SmartDiffieHellman) public smartDHXs;
 
     function numberOfNeededSmartDHXs() private view returns (uint256 _count) {
         uint256 groupSize = registered.length / numberOfGroups;
-        uint256 smartDHXCountPerGroup = (groupSize / 2) * (groupSize - 1);
-        _count = smartDHXCountPerGroup * groupSize;
+        uint256 smartDHXCountPerGroup = groupSize * (groupSize - 1);
+        _count = smartDHXCountPerGroup * numberOfGroups;
     }
 
-    function deploySmartDHX() public {
+    function getEdgeKey(address _first, address _second) public view returns (bytes32 _edgeKey) {
+        if (_first < _second) {
+            return keccak256(abi.encodePacked(_first, _second));
+        }
+        return keccak256(abi.encodePacked(_second, _first));
+    }
+
+    function deploySmartDHX(address _first, address _second) public {
         require(msg.sender == owner);
         require(state == State.Vote);
 
-        uint256 smartDHXCountTotal = numberOfNeededSmartDHXs();
+        SmartDiffieHellman firstSmartDHX = new SmartDiffieHellman();
+        SmartDiffieHellman secondSmartDHX = new SmartDiffieHellman();
 
-        require(smartDHXs.length < smartDHXCountTotal, 'All smartDHXs have been deployed already.');
+        bytes32 firstEdgeKey = getEdgeKey(_first, _second);
+        bytes32 secondEdgeKey = getEdgeKey(_second, _first);
 
-        SmartDiffieHellman smartDHX = new SmartDiffieHellman();
-        smartDHXs.push(smartDHX);
+        smartDHXs[firstEdgeKey] = firstSmartDHX;
+        smartDHXs[secondEdgeKey] = secondSmartDHX;
     }
 
     function stop() public {
