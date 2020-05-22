@@ -190,16 +190,21 @@ contract('ShuffleAndDistributeInGroups', accounts => {
 
       for (let i = 0; i < votersInGroup.length -1; i++) {
         for (let j = i + 1; j < votersInGroup.length; j++) {
+          assert.notEqual(votersInGroup[i], votersInGroup[j], 'The two voters are the same');
+
           await truffleCost.log(instance.deploySmartDHX(votersInGroup[i], votersInGroup[j]));
 
           const firstEdgeKey = await instance.getEdgeKey(votersInGroup[i], votersInGroup[j]);
           const secondEdgeKey = await instance.getEdgeKey(votersInGroup[j], votersInGroup[i]);
+
+          assert.notEqual(firstEdgeKey, secondEdgeKey, 'The two edgeKeys are the same');
 
           const firstSmartDHX = await instance.smartDHXs(firstEdgeKey);
           const secondSmartDHX = await instance.smartDHXs(secondEdgeKey);
 
           assert.ok(firstSmartDHX, `SmartDHX between ${votersInGroups[i]} and ${votersInGroups[j]} has not been deployed`);
           assert.ok(secondSmartDHX, `SmartDHX between ${votersInGroups[j]} and ${votersInGroups[i]} has not been deployed`);
+          assert.notEqual(firstSmartDHX, secondSmartDHX, 'The two smartDHX are the same');
 
           edgeKeys.push(firstEdgeKey);
           edgeKeys.push(secondEdgeKey);

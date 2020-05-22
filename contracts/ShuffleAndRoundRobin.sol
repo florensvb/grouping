@@ -204,11 +204,8 @@ contract ShuffleAndRoundRobin is usingProvable {
         _count = smartDHXCountPerGroup * numberOfGroups;
     }
 
-    function getEdgeKey(address _first, address _second) public view returns (bytes32 _edgeKey) {
-        if (_first < _second) {
-            return keccak256(abi.encodePacked(_first, _second));
-        }
-        return keccak256(abi.encodePacked(_second, _first));
+    function getEdgeKey(address _first, address _second) public pure view returns (bytes32 _edgeKey) {
+        return keccak256(abi.encodePacked(_first, _second));
     }
 
     function deploySmartDHX(address _first, address _second) public {
