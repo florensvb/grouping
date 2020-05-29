@@ -5,6 +5,7 @@ const { waitForEvent } = require('./utils');
 
 const truffleCost = require('truffle-cost');
 const { utils: { keccak256 } } = require('web3');
+const CryptoJS = require("crypto-js");
 
 const votersCount = 12;
 const groups = 3;
@@ -265,9 +266,11 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     }
   });
 
-  // it('should share votes between each pair of clients in an encrypted manner', async () => {
-  //   for (const pair of pairsOfClients) {
-  //
-  //   }
-  // });
+  it('should share votes between each pair of clients in an encrypted manner', async () => {
+    for (const pair of pairsOfClients) {
+      const ciphertext = CryptoJS.AES.encrypt('1', pair.secret).toString();
+
+      await truffleCost.log(instance.sendVote(ciphertext, pair.second, {from: pair.first}));
+    }
+  });
 });

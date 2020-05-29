@@ -37,6 +37,7 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     // voting
     uint256[] public votingOptions;
+    mapping(address => mapping(address => string)) votes;
 
     // debugging events
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
@@ -234,6 +235,12 @@ contract ShuffleAndRoundRobin is usingProvable {
 
         smartDHXs[firstEdgeKey] = firstSmartDHX;
         smartDHXs[secondEdgeKey] = secondSmartDHX;
+    }
+
+    function sendVote(string memory _vote, address _to) public {
+        require(state == State.Vote, 'Not in voting state');
+        //require(!votes[msg.sender][_to], 'Vote was already shared');
+        votes[msg.sender][_to] = _vote;
     }
 
     function stop() public {
