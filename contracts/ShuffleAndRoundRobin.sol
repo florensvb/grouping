@@ -9,8 +9,8 @@ contract ShuffleAndRoundRobin is usingProvable {
     uint public provableRandomNumber;
 
     // 0. Contract state
-    enum State { Register, Commit, Reveal, Vote }
-    State public state = State.Register;
+    enum State { Init, Register, Commit, Reveal, Vote }
+    State public state = State.Init;
 
     // 1. Register all accounts
     address[] public registered;
@@ -35,6 +35,9 @@ contract ShuffleAndRoundRobin is usingProvable {
     // only the contract owner can start distribution and selfdestruct the contract
     address payable owner = msg.sender;
 
+    // voting
+    uint256[] public votingOptions;
+
     // debugging events
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
     event distributed(address indexed _address, uint256 indexed _group);
@@ -42,7 +45,7 @@ contract ShuffleAndRoundRobin is usingProvable {
     event LogNewProvableQuery(string description);
 
     constructor() public {
-        OAR = OracleAddrResolverI(0x864b12a155Db678F6033A963bC2e1c35B8cEbFda);
+        OAR = OracleAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);
     }
 
     function __callback(bytes32 myid, string memory result) public
@@ -59,10 +62,21 @@ contract ShuffleAndRoundRobin is usingProvable {
         provable_query("URL", "https://www.random.org/integers/?num=1&min=1&max=1000000000&col=1&base=10&format=plain&rnd=new");
     }
 
+    // set voting options
+    function setVotingOptions(uint256[] memory _votingOptions) public {
+        require(msg.sender == owner, 'Sender must be owner');
+        require(_votingOptions.length > 1, 'There must be at least two voting options');
+        require(state == State.Init, 'State must be Init');
+
+        state = State.Register;
+
+        votingOptions = _votingOptions;
+    }
+
     // ======= 1. =======
     function register() public {
-        require(state == State.Register);
-        require(!isRegistered[msg.sender]);
+        require(state == State.Register, 'Not in state Register');
+        require(!isRegistered[msg.sender], 'Already registered');
 
         isRegistered[msg.sender] = true;
         registered.push(msg.sender);

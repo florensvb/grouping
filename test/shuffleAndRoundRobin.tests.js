@@ -9,6 +9,8 @@ const { utils: { keccak256 } } = require('web3');
 const votersCount = 12;
 const groups = 3;
 
+const votingOptions = [1, 2, 3];
+
 let owner, instance;
 const commits = {};
 const reveals = {};
@@ -26,6 +28,15 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     assert(accounts.length >= votersCount + 1, `This test case needs at least ${votersCount + 1} accounts (1 owner and ${votersCount} accounts for distribution)`);
   });
 
+  it('should set votingOptions', async () => {
+    await truffleCost.log(instance.setVotingOptions(votingOptions));
+
+    for (let i = 0; i < votingOptions.length; i++) {
+      const votingOption = await instance.votingOptions.call(i);
+      assert.equal(votingOptions[i], votingOption, 'voting option does not match');
+    }
+  });
+
   it(`should register ${votersCount} voters`, async () => {
     for(let i = 1; i <= votersCount; i++) {
       await instance.register({ from: accounts[i] });
@@ -41,7 +52,7 @@ contract('ShuffleAndDistributeInGroups', accounts => {
 
     const state = await instance.state.call();
 
-    assert.equal(state.toNumber(), 1);
+    assert.equal(state.toNumber(), 2);
   });
 
   it('should have a hashed seed stored in contract', async () => {
@@ -72,7 +83,7 @@ contract('ShuffleAndDistributeInGroups', accounts => {
 
     const state = await instance.state.call();
 
-    assert.equal(state.toNumber(), 2);
+    assert.equal(state.toNumber(), 3);
   });
 
   it('should have a revealed seed stored in contract', async () => {
@@ -217,6 +228,7 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     assert.equal(smartDHXCount, smartDHXCountTotal, `Not all ${smartDHXCountTotal} smartDHXs have been deployed`);
   });
 
+  const pairsOfClients = [];
   it('should exchange one and the same key between all pairs of clients', async () => {
     const abi = require('./../build/contracts/SmartDiffieHellman').abi;
 
@@ -248,6 +260,14 @@ contract('ShuffleAndDistributeInGroups', accounts => {
       let AB2 = await secondSmartDHX.methods.generateAB(bB["_a"]).call();
 
       assert.equal(AB1.toString(), AB2.toString(), "Exchanged keys keys are not the same");
+
+      pairsOfClients.push({first: first.i, second: second.i, secret: AB1.toString()});
     }
   });
+
+  // it('should share votes between each pair of clients in an encrypted manner', async () => {
+  //   for (const pair of pairsOfClients) {
+  //
+  //   }
+  // });
 });
