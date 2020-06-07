@@ -10,7 +10,7 @@ const CryptoJS = require("crypto-js");
 const votersCount = 12;
 const groups = 3;
 
-const votingOptions = [1, 2, 3];
+const votingOptions = [0, 1, 2];
 
 let owner, instance;
 const commits = {};
@@ -266,16 +266,59 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     }
   });
 
-  const votes = accounts.reduce((acc, account) => acc[account] = votingOptions[Math.floor(Math.random() * votingOptions.length)], {});
+  const votes = accounts.reduce((acc, account) => {
+    acc[account] = votingOptions[Math.floor(Math.random() * votingOptions.length)];
+    return acc;
+  }, {});
 
   it('should share votes between each pair of clients in an encrypted manner', async () => {
     for (const pair of pairsOfClients) {
-      const vote = votes[pairsOfClients.first];
-      const ciphertext = CryptoJS.AES.encrypt(vote, pair.secret).toString();
+      const firstVote = votes[pair.first];
+      const secondVote = votes[pair.second];
 
-      await truffleCost.log(instance.sendVote(ciphertext, pair.second, {from: pair.first}));
+      const firstCiphertext = CryptoJS.AES.encrypt(firstVote.toString(), pair.secret.toString()).toString();
+      const secondCiphertext = CryptoJS.AES.encrypt(secondVote.toString(), pair.secret.toString()).toString();
 
-      assert.equal(await instance.votes(pair.first, pair.second), ciphertext, 'Vote stored in contract does not match ciphertext');
+      await truffleCost.log(instance.sendVote(firstCiphertext, pair.second, {from: pair.first}));
+      await truffleCost.log(instance.sendVote(secondCiphertext, pair.first, {from: pair.second}));
+
+      assert.equal(await instance.votes(pair.first, pair.second), firstCiphertext, 'Vote stored in contract does not match ciphertext');
+      assert.equal(await instance.votes(pair.second, pair.first), secondCiphertext, 'Vote stored in contract does not match ciphertext');
+    }
+  });
+
+  it('should decrypt and broadcast group totals', async () => {
+    const groupTotals = accounts.reduce((acc, account) => {
+      acc[account] = new Array(votingOptions.length).fill(0);
+      return acc;
+    }, {});
+
+    for (const pair of pairsOfClients) {
+      const firstCiphertext = await instance.votes(pair.first, pair.second);
+      const secondCiphertext = await instance.votes(pair.second, pair.first);
+
+      const firstVoteBytes = CryptoJS.AES.decrypt(firstCiphertext, pair.secret);
+      const secondVoteBytes = CryptoJS.AES.decrypt(secondCiphertext, pair.secret);
+
+      const firstVote = firstVoteBytes.toString(CryptoJS.enc.Utf8);
+      const secondVote = secondVoteBytes.toString(CryptoJS.enc.Utf8);
+
+      assert.equal(firstVote, votes[pair.first], "Decrypted vote does not equal initial vote");
+      assert.equal(secondVote, votes[pair.second], "Decrypted vote does not equal initial vote");
+
+      groupTotals[pair.first][parseInt(secondVote)] += 1;
+      groupTotals[pair.second][parseInt(firstVote)] += 1;
+    }
+
+    for(let i = 0; i < votersCount; i++) {
+      const address = await instance.registered(i);
+      groupTotals[address][votes[address]] += 1;
+      await truffleCost.log(instance.broadcastGroupTotalVotes(groupTotals[address], {from: address}));
+
+      for (let j = 0; j < votingOptions; j++) {
+        const broadcastedTotal = await instance.groupTotals(address, j);
+        assert.equal(broadcastedTotal, groupTotals[address][j], "Broadcasted totals do not match");
+      }
     }
   });
 });

@@ -38,6 +38,7 @@ contract ShuffleAndRoundRobin is usingProvable {
     // voting
     uint256[] public votingOptions;
     mapping(address => mapping(address => string)) public votes;
+    mapping(address => uint256[]) public groupTotals;
 
     // debugging events
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
@@ -236,6 +237,13 @@ contract ShuffleAndRoundRobin is usingProvable {
         require(bytes(votes[msg.sender][_to]).length == 0, 'Vote was already sent');
 
         votes[msg.sender][_to] = _vote;
+    }
+
+    function broadcastGroupTotalVotes(uint256[] memory _groupTotals) public {
+        require(_groupTotals.length == votingOptions.length, 'Group totals must have total for each voting option');
+        require(groupTotals[msg.sender].length == 0, 'Sender already broadcasted the group totals');
+
+        groupTotals[msg.sender] = _groupTotals;
     }
 
     function stop() public {

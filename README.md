@@ -26,12 +26,12 @@ You need to have the `ethereum-bridge` running to communicate with the provable 
 ```
 npx ethereum-bridge -a 9 -H 127.0.0.1 -p 7545 --dev
 ```
-Add `--oar 0xB16e6dd36Dfxxxxxxxxxx54b74E41ac6f42b5E` if you ran the command above before and want to use the same address as stated below:
+Add for example `--oar 0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475` if you ran the command above before and want to use the same address as stated below:
 
 The bridge will print out the address of the oracle contract.
 
 ```
-OAR = OraclizeAddrResolverI(0xB16e6dd36Dfxxxxxxxxxx54b74E41ac6f42b5E);
+OAR = OraclizeAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);
 ```
 
 Copy paste it into the constructor function of the contract `ShuffleAndRoundRobin` so that it knows where to connect.
