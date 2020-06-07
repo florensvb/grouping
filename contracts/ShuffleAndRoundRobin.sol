@@ -37,7 +37,7 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     // voting
     uint256[] public votingOptions;
-    mapping(address => mapping(address => string)) votes;
+    mapping(address => mapping(address => string)) public votes;
 
     // debugging events
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
@@ -213,12 +213,6 @@ contract ShuffleAndRoundRobin is usingProvable {
     // ========== smartDHX ===========
     mapping(bytes32 => SmartDiffieHellman) public smartDHXs;
 
-    function numberOfNeededSmartDHXs() private view returns (uint256 _count) {
-        uint256 groupSize = registered.length / numberOfGroups;
-        uint256 smartDHXCountPerGroup = groupSize * (groupSize - 1);
-        _count = smartDHXCountPerGroup * numberOfGroups;
-    }
-
     function getEdgeKey(address _first, address _second) public pure returns (bytes32 _edgeKey) {
         return keccak256(abi.encodePacked(_first, _second));
     }
@@ -239,7 +233,8 @@ contract ShuffleAndRoundRobin is usingProvable {
 
     function sendVote(string memory _vote, address _to) public {
         require(state == State.Vote, 'Not in voting state');
-        //require(!votes[msg.sender][_to], 'Vote was already shared');
+        require(bytes(votes[msg.sender][_to]).length == 0, 'Vote was already sent');
+
         votes[msg.sender][_to] = _vote;
     }
 

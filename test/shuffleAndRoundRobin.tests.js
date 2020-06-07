@@ -266,11 +266,16 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     }
   });
 
+  const votes = accounts.reduce((acc, account) => acc[account] = votingOptions[Math.floor(Math.random() * votingOptions.length)], {});
+
   it('should share votes between each pair of clients in an encrypted manner', async () => {
     for (const pair of pairsOfClients) {
-      const ciphertext = CryptoJS.AES.encrypt('1', pair.secret).toString();
+      const vote = votes[pairsOfClients.first];
+      const ciphertext = CryptoJS.AES.encrypt(vote, pair.secret).toString();
 
       await truffleCost.log(instance.sendVote(ciphertext, pair.second, {from: pair.first}));
+
+      assert.equal(await instance.votes(pair.first, pair.second), ciphertext, 'Vote stored in contract does not match ciphertext');
     }
   });
 });
