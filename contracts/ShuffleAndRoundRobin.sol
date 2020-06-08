@@ -39,6 +39,7 @@ contract ShuffleAndRoundRobin is usingProvable {
     uint256[] public votingOptions;
     mapping(address => mapping(address => string)) public votes;
     mapping(address => uint256[]) public groupTotals;
+    uint256[] public totalCounts;
 
     // debugging events
     event randomNr(uint256 indexed _rand, bool indexed _accepted);
@@ -47,7 +48,7 @@ contract ShuffleAndRoundRobin is usingProvable {
     event LogNewProvableQuery(string description);
 
     constructor() public {
-        OAR = OracleAddrResolverI(0x6f485C8BF6fc43eA212E93BBF8ce046C7f1cb475);
+        OAR = OracleAddrResolverI(0x8D0be561Aa14bC084174CdCaE822F4724AE51ab8);
     }
 
     function __callback(bytes32 myid, string memory result) public
@@ -244,6 +245,21 @@ contract ShuffleAndRoundRobin is usingProvable {
         require(groupTotals[msg.sender].length == 0, 'Sender already broadcasted the group totals');
 
         groupTotals[msg.sender] = _groupTotals;
+    }
+
+    function calculateTotals() public {
+        require(msg.sender == owner);
+        require(totalCounts.length == 0, 'Already calculated the totals');
+
+        for(uint256 i = 0; i < votingOptions.length; i++) {
+            totalCounts.push(0);
+        }
+
+        for(uint256 i = 0; i < registered.length; i++) {
+            for (uint256 j = 0; j < groupTotals[registered[i]].length; j++) {
+                totalCounts[j] += groupTotals[registered[i]][j];
+            }
+        }
     }
 
     function stop() public {

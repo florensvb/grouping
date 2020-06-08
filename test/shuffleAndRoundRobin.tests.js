@@ -287,11 +287,12 @@ contract('ShuffleAndDistributeInGroups', accounts => {
     }
   });
 
+  const groupTotals = accounts.reduce((acc, account) => {
+    acc[account] = new Array(votingOptions.length).fill(0);
+    return acc;
+  }, {});
+
   it('should decrypt and broadcast group totals', async () => {
-    const groupTotals = accounts.reduce((acc, account) => {
-      acc[account] = new Array(votingOptions.length).fill(0);
-      return acc;
-    }, {});
 
     for (const pair of pairsOfClients) {
       const firstCiphertext = await instance.votes(pair.first, pair.second);
@@ -320,5 +321,30 @@ contract('ShuffleAndDistributeInGroups', accounts => {
         assert.equal(broadcastedTotal, groupTotals[address][j], "Broadcasted totals do not match");
       }
     }
+  });
+
+  it('should determine the winner', async () => {
+    const totals = Object.keys(groupTotals).reduce((acc, key) => {
+      for (let i = 0; i < groupTotals[key].length; i++) {
+        acc[i] += groupTotals[key][i];
+      }
+      return acc;
+    }, new Array(votingOptions.length).fill(0));
+
+    const winner = totals.indexOf(Math.max.apply(Math, totals));
+
+    await truffleCost.log(instance.calculateTotals());
+
+    let _totals = new Array(votingOptions.length).fill(0);
+    for (let i = 0; i < votersCount; i++) {
+      for (let j = 0; j < votingOptions.length; j++) {
+        const groupTotal = await instance.groupTotals(accounts[i + 1], j);
+        _totals[j] += parseInt(groupTotal);
+      }
+    }
+
+    const _winner = _totals.indexOf(Math.max.apply(Math, _totals));
+
+    assert.equal(winner, _winner, 'Winner does not match');
   });
 });
